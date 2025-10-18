@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { useState, useRef } from "react";
 import { useRouter } from "expo-router";
+import { ThemedView } from "@/components/themed-view";
+import { ThemedText } from "@/components/themed-text";
 
 export default function On_Boarding_1() {
   const router = useRouter();
@@ -43,10 +45,18 @@ export default function On_Boarding_1() {
   };
 
   return (
-    <View style={Styles.container}>
+    <ThemedView
+      style={Styles.container}
+      lightColor="#F7F8FA"
+      darkColor="#000000"
+    >
       {/* Skip Text */}
       <View style={Styles.skipWrapper}>
-        <TouchableOpacity onPress={()=>{router.replace("/(tabs)")}}>
+        <TouchableOpacity
+          onPress={() => {
+            router.replace("/(tabs)");
+          }}
+        >
           <Text style={Styles.skipText}>Skip</Text>
         </TouchableOpacity>
       </View>
@@ -70,8 +80,20 @@ export default function On_Boarding_1() {
                 source={item.image}
               />
               <View style={Styles.textContainer}>
-                <Text style={Styles.title}>{item.title}</Text>
-                <Text style={Styles.text}>{item.text}</Text>
+                <ThemedText
+                  lightColor="#23262F"
+                  darkColor="#fff"
+                  style={Styles.title}
+                >
+                  {item.title}
+                </ThemedText>
+                <ThemedText
+                  lightColor="#23262F"
+                  darkColor="#8E9295"
+                  style={Styles.text}
+                >
+                  {item.text}
+                </ThemedText>
               </View>
             </View>
           )}
@@ -87,7 +109,7 @@ export default function On_Boarding_1() {
           />
         ))}
       </View>
-    </View>
+    </ThemedView>
   );
 }
 
@@ -96,7 +118,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     flex: 1,
-    backgroundColor: "#F7F8FA",
+    // backgroundColor: "#F7F8FA",
     paddingTop: 41,
   },
   skipWrapper: {
@@ -123,14 +145,15 @@ const Styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "Poppins_700Bold",
     textAlign: "center",
-    color: "#23262F",
+    lineHeight: 50,
+    marginBottom:10
   },
   text: {
     fontSize: 16.3,
     textAlign: "center",
     fontWeight: "300",
     fontFamily: "Poppins_300Light",
-    color: "#8E9295",
+    lineHeight: 20,
   },
   dotsContainer: {
     flexDirection: "row",
