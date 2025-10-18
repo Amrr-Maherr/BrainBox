@@ -1,8 +1,38 @@
 import { Image } from "expo-image";
-import { View, StyleSheet, Text } from "react-native";
-import { Ionicons } from "@expo/vector-icons"; // ✅ استيراد الأيقونات
+import { FlatList, View, Text, StyleSheet, Dimensions } from "react-native";
+import { useState, useRef } from "react";
 
 export default function On_Boarding_1() {
+  const { width } = Dimensions.get("window");
+  const SplashScreenData = [
+    {
+      id: 1,
+      title: "Unlock the Power Of Future AI",
+      text: "Chat with the smartest AI Future Experience power of AI with us",
+      image: require("../assets/images/On_Boarding_1.png"),
+    },
+    {
+      id: 2,
+      title: "Chat With Your Favorite Ai",
+      text: "Chat with the smartest AI Future  Experience power of AI with us",
+      image: require("../assets/images/On_Boarding_2.png"),
+    },
+    {
+      id: 3,
+      title: "Boost Your Mind Power with Ai",
+      text: "Chat with the smartest AI Future  Experience power of AI with us",
+      image: require("../assets/images/On_Boarding_3.png"),
+    },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const flatListRef = useRef(null);
+
+  const handleScroll = (event:any) => {
+    const slideIndex = Math.round(event.nativeEvent.contentOffset.x / width);
+    setCurrentIndex(slideIndex);
+  };
+
   return (
     <View style={Styles.container}>
       {/* Skip Text */}
@@ -10,30 +40,41 @@ export default function On_Boarding_1() {
         <Text style={Styles.skipText}>Skip</Text>
       </View>
 
-      <Image
-        alt="On_Boarding_1"
-        style={Styles.image}
-        source={require("../assets/images/On_Boarding_1.png")}
-      />
-
-      <View style={Styles.textContainer}>
-        <Text style={Styles.title}>Unlock the Power Of Future AI</Text>
-        <Text style={Styles.text}>
-          Chat with the smartest AI Future Experience power of AI with us
-        </Text>
+      {/* Slides */}
+      <View style={{ width }}>
+        <FlatList
+          ref={flatListRef}
+          data={SplashScreenData}
+          keyExtractor={(item) => item.id.toString()}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          renderItem={({ item }) => (
+            <View style={{ width, alignItems: "center", gap: 20 }}>
+              <Image
+                alt="OnBoarding"
+                style={Styles.image}
+                source={item.image}
+              />
+              <View style={Styles.textContainer}>
+                <Text style={Styles.title}>{item.title}</Text>
+                <Text style={Styles.text}>{item.text}</Text>
+              </View>
+            </View>
+          )}
+        />
       </View>
 
-      {/* Bottom Buttons */}
-      <View style={Styles.buttonContainer}>
-        <View style={Styles.buttonContent}>
-          <Ionicons name="arrow-back" size={22} color="#23262F" />
-        </View>
-
-        <View style={Styles.divider} />
-
-        <View style={Styles.buttonContent}>
-          <Ionicons name="arrow-forward" size={22} color="#23262F" />
-        </View>
+      {/* Dots Indicators */}
+      <View style={Styles.dotsContainer}>
+        {SplashScreenData.map((_, index) => (
+          <View
+            key={index}
+            style={[Styles.dot, currentIndex === index && Styles.activeDot]}
+          />
+        ))}
       </View>
     </View>
   );
@@ -42,16 +83,16 @@ export default function On_Boarding_1() {
 const Styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    justifyContent: "flex-start",
-    gap: 23,
+    justifyContent: "space-around",
     flex: 1,
     backgroundColor: "#F7F8FA",
-    paddingHorizontal: 26,
     paddingTop: 41,
   },
   skipWrapper: {
     width: "100%",
     alignItems: "flex-end",
+    paddingHorizontal: 26,
+    marginBottom: 10,
   },
   skipText: {
     fontSize: 16,
@@ -60,10 +101,9 @@ const Styles = StyleSheet.create({
   },
   textContainer: {
     maxWidth: 316,
-    marginHorizontal: "auto",
   },
   image: {
-    width: "100%",
+    width: "90%",
     height: 438.45,
     borderRadius: 33.05,
   },
@@ -81,36 +121,21 @@ const Styles = StyleSheet.create({
     fontFamily: "Poppins_300Light",
     color: "#8E9295",
   },
-  buttonContainer: {
-    position: "absolute",
-    bottom: 40,
-    width: 154,
-    height: 64,
-    borderRadius: 16,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "space-between",
-    shadowColor: "#000",
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+  dotsContainer: {
     flexDirection: "row",
-    padding: 20,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontFamily: "Poppins_300Light",
-    color: "#23262F",
-  },
-  divider: {
-    width: 1,
-    height: "100%",
-    backgroundColor: "#E0E0E0",
-  },
-  buttonContent: {
-    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
-    gap: 8,
+    marginTop: 20,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#23262f88",
+    marginHorizontal: 5,
+  },
+  activeDot: {
+    backgroundColor: "#141718",
+    width: 16,
   },
 });
