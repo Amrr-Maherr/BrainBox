@@ -1,8 +1,16 @@
 import { StyleSheet, View, Text} from "react-native";
 import { useRouter } from "expo-router";
+import { useEffect } from "react";
 
 export default function WelcomeScreen() {
   const router = useRouter();
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.replace("/On-Boarding-1"); 
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [router]);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>BrainBox</Text>
