@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     fontWeight: "medium",
+    fontFamily: "Poppins_400Regular",
   },
   subtitle: {
     fontSize: 24,
@@ -29,5 +30,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     position: "absolute",
     bottom: 39,
+    fontFamily: "Poppins_300Light",
   },
 });

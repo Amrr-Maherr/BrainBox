@@ -5,10 +5,19 @@ import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-
+import { useFonts } from "expo-font";
+import {
+  Poppins_400Regular,
+  Poppins_700Bold,
+  Poppins_300Light,
+} from "@expo-google-fonts/poppins";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_700Bold,
+    Poppins_300Light,
+  });
   return (
     <Tabs
       screenOptions={{
