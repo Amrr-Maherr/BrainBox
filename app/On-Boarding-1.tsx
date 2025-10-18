@@ -1,8 +1,17 @@
 import { Image } from "expo-image";
-import { FlatList, View, Text, StyleSheet, Dimensions } from "react-native";
+import {
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { useState, useRef } from "react";
+import { useRouter } from "expo-router";
 
 export default function On_Boarding_1() {
+  const router = useRouter();
   const { width } = Dimensions.get("window");
   const SplashScreenData = [
     {
@@ -37,7 +46,9 @@ export default function On_Boarding_1() {
     <View style={Styles.container}>
       {/* Skip Text */}
       <View style={Styles.skipWrapper}>
-        <Text style={Styles.skipText}>Skip</Text>
+        <TouchableOpacity onPress={()=>{router.replace("/(tabs)")}}>
+          <Text style={Styles.skipText}>Skip</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Slides */}
