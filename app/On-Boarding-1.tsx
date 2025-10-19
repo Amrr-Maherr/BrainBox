@@ -64,7 +64,7 @@ export default function On_Boarding_1() {
       <View style={Styles.skipWrapper}>
         <TouchableOpacity
           onPress={() => {
-            router.replace("/(tabs)");
+            router.replace("/Welcome");
           }}
         >
           <Text style={Styles.skipText}>Skip</Text>

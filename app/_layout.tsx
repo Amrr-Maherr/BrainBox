@@ -13,10 +13,11 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{headerShown:false}} initialRouteName='index' >
-        <Stack.Screen name="(tabs)"/>
-        <Stack.Screen name="index"/>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{ headerShown: false }} initialRouteName="index">
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="index" />
+        <Stack.Screen name="Welcome" />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
