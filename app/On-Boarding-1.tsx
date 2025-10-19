@@ -21,25 +21,28 @@ export default function On_Boarding_1() {
       title: "Unlock the Power Of Future AI",
       text: "Chat with the smartest AI Future Experience power of AI with us",
       image: require("../assets/images/On_Boarding_1.png"),
+      blur: require("../assets/images/On_Boarding_1_blur.png"),
     },
     {
       id: 2,
       title: "Chat With Your Favorite Ai",
       text: "Chat with the smartest AI Future  Experience power of AI with us",
       image: require("../assets/images/On_Boarding_2.png"),
+      blur: require("../assets/images/On_Boarding_2_blur.png"),
     },
     {
       id: 3,
       title: "Boost Your Mind Power with Ai",
       text: "Chat with the smartest AI Future  Experience power of AI with us",
       image: require("../assets/images/On_Boarding_3.png"),
+      blur: require("../assets/images/On_Boarding_3_blur.png"),
     },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
 
-  const handleScroll = (event:any) => {
+  const handleScroll = (event) => {
     const slideIndex = Math.round(event.nativeEvent.contentOffset.x / width);
     setCurrentIndex(slideIndex);
   };
@@ -50,6 +53,14 @@ export default function On_Boarding_1() {
       lightColor="#F7F8FA"
       darkColor="#000000"
     >
+      <Image
+        alt="background_blur"
+        source={SplashScreenData[currentIndex].blur}
+        style={Styles.blurBackground}
+        contentFit="cover"
+        transition={1000}
+      />
+
       {/* Skip Text */}
       <View style={Styles.skipWrapper}>
         <TouchableOpacity
@@ -118,14 +129,21 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     flex: 1,
-    // backgroundColor: "#F7F8FA",
     paddingTop: 41,
+  },
+  blurBackground: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0,
   },
   skipWrapper: {
     width: "100%",
     alignItems: "flex-end",
     paddingHorizontal: 26,
     marginBottom: 10,
+    zIndex: 10,
   },
   skipText: {
     fontSize: 16,
@@ -139,6 +157,7 @@ const Styles = StyleSheet.create({
     width: "90%",
     height: 438.45,
     borderRadius: 33.05,
+    zIndex: 2,
   },
   title: {
     fontSize: 33.9,
@@ -146,7 +165,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     textAlign: "center",
     lineHeight: 50,
-    marginBottom:10
+    marginBottom: 10,
   },
   text: {
     fontSize: 16.3,
@@ -160,6 +179,7 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
+    zIndex: 10,
   },
   dot: {
     width: 8,
