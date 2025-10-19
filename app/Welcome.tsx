@@ -27,14 +27,17 @@ export default function Welcome() {
           text="Log In"
           style={styles.button}
           lightColor="#141718"
-          darkColor="#232627"
+          darkColor="#fff"
+          textLight="#FFFFFF"
           onPress={() => console.log("login!")}
         />
         <ThemedButton
           text="Sign Up"
           style={styles.button}
           lightColor="#E3E3E3"
-          darkColor="#B1B1B1"
+          darkColor="#232627"
+          textLight="#B1B1B1"
+          textDark="#B1B1B1"
           onPress={() => console.log("sign up!")}
         />
       </View>
