@@ -10,12 +10,16 @@ export type ThemedButtonProps = TouchableOpacityProps & {
   lightColor?: string;
   darkColor?: string;
   text?: string;
+  textLight?:string
+  textDark?:string
 };
 
 export function ThemedButton({
   style,
   lightColor,
   darkColor,
+  textLight,
+  textDark,
   text = "Button",
   ...rest
 }: ThemedButtonProps) {
@@ -24,7 +28,10 @@ export function ThemedButton({
     "background"
   );
 
-  const textColor = useThemeColor({ light: "#fff", dark: "#000" }, "text");
+  const textColor = useThemeColor(
+    { light: textLight ?? "#fff", dark: textDark ?? "#000" },
+    "text"
+  );
 
   return (
     <TouchableOpacity
