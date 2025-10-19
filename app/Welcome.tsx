@@ -1,21 +1,25 @@
 import { ThemedButton } from "@/components/themed-button";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, useColorScheme } from "react-native";
 
 export default function Welcome() {
+  const ColorScheme = useColorScheme();
+  const logo:object =
+    ColorScheme === "dark"
+      ? require("../assets/images/Logoo.png")
+      : require("../assets/images/Logo.png");
   return (
     <ThemedView
       lightColor="#F7F8FA"
       darkColor="#141718"
       style={styles.container}
     >
-      <Image
-        style={styles.image}
-        source={require("../assets/images/Logo.png")}
-      />
+      <Image style={styles.image} source={logo} />
       <View>
-        <Text style={styles.title}>Welcome to BrainBox</Text>
+        <ThemedText lightColor="#141718" darkColor="#fff" style={styles.title}>
+          Welcome to BrainBox
+        </ThemedText>
       </View>
 
       <View style={styles.buttonsContainer}>
@@ -81,6 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "700",
     textAlign: "center",
+    lineHeight: 60,
   },
   buttonsContainer: {
     alignItems: "center",
