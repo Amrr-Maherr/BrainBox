@@ -55,10 +55,9 @@ export default function On_Boarding_1() {
     >
       <Image
         alt="background_blur"
-        source={SplashScreenData[currentIndex].blur}
+        source={require("../assets/images/On_Boarding_3_blur.png")}
         style={Styles.blurBackground}
-        contentFit="cover"
-        transition={1000}
+        contentFit="contain"
       />
 
       {/* Skip Text */}
