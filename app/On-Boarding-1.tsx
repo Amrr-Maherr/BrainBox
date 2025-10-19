@@ -42,7 +42,7 @@ export default function On_Boarding_1() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
 
-  const handleScroll = (event) => {
+  const handleScroll = (event:any) => {
     const slideIndex = Math.round(event.nativeEvent.contentOffset.x / width);
     setCurrentIndex(slideIndex);
   };
