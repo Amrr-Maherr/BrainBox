@@ -1,10 +1,12 @@
 import { ThemedButton } from "@/components/themed-button";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { useRouter } from "expo-router";
 import { View, StyleSheet, Image, Text, useColorScheme } from "react-native";
 
 export default function Welcome() {
   const ColorScheme = useColorScheme();
+    const router = useRouter();
   const logo:object =
     ColorScheme === "dark"
       ? require("../assets/images/Logoo.png")
@@ -29,7 +31,7 @@ export default function Welcome() {
           lightColor="#141718"
           darkColor="#fff"
           textLight="#FFFFFF"
-          onPress={() => console.log("login!")}
+          onPress={() => router.push("/Register")}
         />
         <ThemedButton
           text="Sign Up"

@@ -3,15 +3,18 @@ import {
   Text,
   StyleSheet,
   type TouchableOpacityProps,
+  View,
 } from "react-native";
 import { useThemeColor } from "@/hooks/use-theme-color";
+import { ReactNode } from "react";
 
 export type ThemedButtonProps = TouchableOpacityProps & {
   lightColor?: string;
   darkColor?: string;
   text?: string;
-  textLight?:string
-  textDark?:string
+  textLight?: string;
+  textDark?: string;
+  icon?: ReactNode;
 };
 
 export function ThemedButton({
@@ -20,7 +23,8 @@ export function ThemedButton({
   darkColor,
   textLight,
   textDark,
-  text = "Button",
+  text,
+  icon,
   ...rest
 }: ThemedButtonProps) {
   const backgroundColor = useThemeColor(
@@ -38,7 +42,12 @@ export function ThemedButton({
       style={[styles.button, { backgroundColor }, style]}
       {...rest}
     >
-      <Text style={[styles.text, { color: textColor }]}>{text}</Text>
+      <View style={styles.content}>
+        {icon && <View style={styles.icon}>{icon}</View>}
+        {text && (
+          <Text style={[styles.text, { color: textColor }]}>{text}</Text>
+        )}
+      </View>
     </TouchableOpacity>
   );
 }
@@ -48,6 +57,16 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  content: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  icon: {
     alignItems: "center",
     justifyContent: "center",
   },
