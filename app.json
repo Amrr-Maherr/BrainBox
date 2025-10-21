@@ -4,7 +4,7 @@
     "slug": "BrainBox",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/On_Boarding_3.png",
     "scheme": "brainbox",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
