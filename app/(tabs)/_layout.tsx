@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { View } from "react-native";
 import { HapticTab } from "@/components/haptic-tab";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -28,19 +29,15 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
         tabBarActiveTintColor: iconsColor,
         tabBarInactiveTintColor: "#9E9E9E",
         tabBarStyle: {
           backgroundColor: background,
           borderTopWidth: 0,
-          height: 70,
-          paddingBottom: 10,
+          height: 55,
+          paddingBottom: 5,
           paddingTop: 5,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "600",
         },
       }}
     >
@@ -49,11 +46,25 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "home" : "home-outline"}
-              size={26}
-              color={color}
-            />
+            <View style={{ alignItems: "center" }}>
+              <Ionicons
+                name={focused ? "home" : "home-outline"}
+                size={26}
+                color={color}
+              />
+              {focused && (
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: -13,
+                    width: 7.21,
+                    height: 7.21,
+                    borderRadius: 3,
+                    backgroundColor: color,
+                  }}
+                />
+              )}
+            </View>
           ),
         }}
       />
@@ -63,26 +74,54 @@ export default function TabLayout() {
         options={{
           title: "Explore",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "search" : "search-outline"}
-              size={26}
-              color={color}
-            />
+            <View style={{ alignItems: "center" }}>
+              <Ionicons
+                name={focused ? "search" : "search-outline"}
+                size={26}
+                color={color}
+              />
+              {focused && (
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: -13,
+                    width: 7.21,
+                    height: 7.21,
+                    borderRadius: 3,
+                    backgroundColor: color,
+                  }}
+                />
+              )}
+            </View>
           ),
         }}
       />
-
       <Tabs.Screen
         name="notifications"
         options={{
           title: "Notifications",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "notifications" : "notifications-outline"}
-              size={26}
-              color={color}
-            />
+            <View style={{ alignItems: "center" }}>
+              <Ionicons
+                name={focused ? "notifications" : "notifications-outline"}
+                size={26}
+                color={color}
+              />
+              {focused && (
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: -13,
+                    width: 7.21,
+                    height: 7.21,
+                    borderRadius: 3,
+                    backgroundColor: color,
+                  }}
+                />
+              )}
+            </View>
           ),
+          tabBarBadge: "5",
         }}
       />
 
@@ -91,11 +130,25 @@ export default function TabLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "person" : "person-outline"}
-              size={26}
-              color={color}
-            />
+            <View style={{ alignItems: "center" }}>
+              <Ionicons
+                name={focused ? "person" : "person-outline"}
+                size={26}
+                color={color}
+              />
+              {focused && (
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: -13,
+                    width: 7.21,
+                    height: 7.21,
+                    borderRadius: 3,
+                    backgroundColor: color,
+                  }}
+                />
+              )}
+            </View>
           ),
         }}
       />
