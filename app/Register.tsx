@@ -15,10 +15,25 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Ionicons } from "@expo/vector-icons";
 import BackButton from "@/components/BackButton";
 import { useRouter } from "expo-router";
+import { useForm, Controller } from "react-hook-form";
 
 export default function Register() {
-  const router = useRouter()
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: object) => console.log("Form Data:", data);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -40,44 +55,109 @@ export default function Register() {
           </View>
 
           <View style={styles.inputsContainer}>
-            <View style={styles.inputWrapper}>
-              <Ionicons name="person-outline" size={22} color="#757474" />
-              <TextInput
-                style={styles.input}
-                placeholder="Full Name"
-                keyboardType="default"
-                placeholderTextColor="#9A9A9A"
-              />
-            </View>
+            {/* Full Name */}
+            <Controller
+              control={control}
+              rules={{
+                required: "Full name is required",
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={styles.inputWrapper}>
+                  <Ionicons name="person-outline" size={22} color="#757474" />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Full Name"
+                    placeholderTextColor="#9A9A9A"
+                    keyboardType="default"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                </View>
+              )}
+              name="fullName"
+            />
+            {errors.fullName && (
+              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+                {errors.fullName.message}
+              </Text>
+            )}
 
-            <View style={styles.inputWrapper}>
-              <Ionicons name="mail-outline" size={22} color="#757474" />
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Your Email"
-                keyboardType="email-address"
-                placeholderTextColor="#9A9A9A"
-              />
-            </View>
+            {/* Email */}
+            <Controller
+              control={control}
+              rules={{
+                required: "Email is required",
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={styles.inputWrapper}>
+                  <Ionicons name="mail-outline" size={22} color="#757474" />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter Your Email"
+                    placeholderTextColor="#9A9A9A"
+                    keyboardType="email-address"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                </View>
+              )}
+              name="email"
+            />
+            {errors.email && (
+              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+                {errors.email.message}
+              </Text>
+            )}
 
-            <View style={styles.inputWrapper}>
-              <Ionicons name="lock-closed-outline" size={22} color="#757474" />
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry={!showPassword}
-                placeholderTextColor="#9A9A9A"
-              />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Ionicons
-                  name={showPassword ? "eye-outline" : "eye-off-outline"}
-                  size={22}
-                  color="#757474"
-                />
-              </TouchableOpacity>
-            </View>
+            {/* Password */}
+            <Controller
+              control={control}
+              rules={{
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="lock-closed-outline"
+                    size={22}
+                    color="#757474"
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Password"
+                    placeholderTextColor="#9A9A9A"
+                    secureTextEntry={!showPassword}
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  <TouchableOpacity
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Ionicons
+                      name={showPassword ? "eye-outline" : "eye-off-outline"}
+                      size={22}
+                      color="#757474"
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+              name="password"
+            />
+            {errors.password && (
+              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+                {errors.password.message}
+              </Text>
+            )}
           </View>
 
+          {/* Submit */}
           <ThemedButton
             text="Sign Up"
             style={styles.signUpButton}
@@ -85,7 +165,7 @@ export default function Register() {
             darkColor="#232627"
             textLight="#fff"
             textDark="#fff"
-            onPress={() => console.log("Sign Up")}
+            onPress={handleSubmit(onSubmit)}
           />
 
           <View style={styles.loginContainer}>
@@ -135,6 +215,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 38,
     fontWeight: "600",
+    color: "#fff",
   },
   inputsContainer: {
     alignItems: "center",

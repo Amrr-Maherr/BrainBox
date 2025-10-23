@@ -15,10 +15,24 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Ionicons } from "@expo/vector-icons";
 import BackButton from "@/components/BackButton";
 import { useRouter } from "expo-router";
+import { useForm, Controller } from "react-hook-form";
 
 export default function Login() {
-      const router = useRouter()
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: object) => console.log("Form Data:", data);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -41,32 +55,74 @@ export default function Login() {
           </View>
 
           <View style={styles.inputsContainer}>
-            <View style={styles.inputWrapper}>
-              <Ionicons name="mail-outline" size={22} color="#757474" />
-              <TextInput
-                style={styles.input}
-                placeholder="Enter Your Email"
-                keyboardType="email-address"
-                placeholderTextColor="#9A9A9A"
-              />
-            </View>
+            {/* Email Input */}
+            <Controller
+              control={control}
+              rules={{
+                required: "Email is required",
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={styles.inputWrapper}>
+                  <Ionicons name="mail-outline" size={22} color="#757474" />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter Your Email"
+                    keyboardType="email-address"
+                    placeholderTextColor="#9A9A9A"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                </View>
+              )}
+              name="email"
+            />
+            {errors.email && (
+              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+                {errors.email.message}
+              </Text>
+            )}
 
-            <View style={styles.inputWrapper}>
-              <Ionicons name="lock-closed-outline" size={22} color="#757474" />
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry={!showPassword}
-                placeholderTextColor="#9A9A9A"
-              />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Ionicons
-                  name={showPassword ? "eye-outline" : "eye-off-outline"}
-                  size={22}
-                  color="#757474"
-                />
-              </TouchableOpacity>
-            </View>
+            {/* Password Input */}
+            <Controller
+              control={control}
+              rules={{
+                required: "Password is required",
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <View style={styles.inputWrapper}>
+                  <Ionicons
+                    name="lock-closed-outline"
+                    size={22}
+                    color="#757474"
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Password"
+                    secureTextEntry={!showPassword}
+                    placeholderTextColor="#9A9A9A"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  <TouchableOpacity
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <Ionicons
+                      name={showPassword ? "eye-outline" : "eye-off-outline"}
+                      size={22}
+                      color="#757474"
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+              name="password"
+            />
+            {errors.password && (
+              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+                {errors.password.message}
+              </Text>
+            )}
           </View>
 
           <TouchableOpacity
@@ -76,6 +132,7 @@ export default function Login() {
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
 
+          {/* Submit Button */}
           <ThemedButton
             text="Login"
             style={styles.loginButton}
@@ -83,7 +140,7 @@ export default function Login() {
             darkColor="#232627"
             textLight="#fff"
             textDark="#fff"
-            onPress={() => console.log("Login")}
+            onPress={handleSubmit(onSubmit)}
           />
 
           <View style={styles.registerContainer}>
@@ -116,18 +173,14 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-  },
+  scrollContainer: { flexGrow: 1 },
   container: {
     paddingTop: 45,
     paddingBottom: 60,
     paddingHorizontal: 35,
     flex: 1,
   },
-  titleContainer: {
-    marginTop: 73.81,
-  },
+  titleContainer: { marginTop: 73.81 },
   title: {
     fontSize: 38,
     fontWeight: "600",
