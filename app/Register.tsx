@@ -8,115 +8,126 @@ import {
   View,
   TouchableOpacity,
   Text,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
 import BackButton from "@/components/BackButton";
+import { useRouter } from "expo-router";
 
 export default function Register() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <>
-      <ThemedView
-        lightColor="#fff"
-        darkColor="#141718"
-        style={styles.container}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.scrollContainer}
+        enableOnAndroid={true}
+        extraScrollHeight={50}
+        keyboardShouldPersistTaps="handled"
       >
-        <BackButton/>
-        <View style={styles.titleContainer}>
-          <ThemedText style={styles.title}>Create your Account</ThemedText>
-        </View>
+        <ThemedView
+          lightColor="#fff"
+          darkColor="#141718"
+          style={styles.container}
+        >
+          <BackButton />
 
-        <View style={styles.inputsContainer}>
-          <View style={styles.inputWrapper}>
-            <Ionicons name="person-outline" size={22} color="#757474" />
-            <TextInput
-              style={styles.input}
-              placeholder="Full Name"
-              keyboardType="default"
-              placeholderTextColor="#9A9A9A"
-            />
+          <View style={styles.titleContainer}>
+            <ThemedText style={styles.title}>Create your Account</ThemedText>
           </View>
 
-          <View style={styles.inputWrapper}>
-            <Ionicons name="mail-outline" size={22} color="#757474" />
-            <TextInput
-              style={styles.input}
-              placeholder="Enter Your Email"
-              keyboardType="email-address"
-              placeholderTextColor="#9A9A9A"
-            />
-          </View>
-
-          <View style={styles.inputWrapper}>
-            <Ionicons name="lock-closed-outline" size={22} color="#757474" />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry={!showPassword}
-              placeholderTextColor="#9A9A9A"
-            />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Ionicons
-                name={showPassword ? "eye-outline" : "eye-off-outline"}
-                size={22}
-                color="#757474"
+          <View style={styles.inputsContainer}>
+            <View style={styles.inputWrapper}>
+              <Ionicons name="person-outline" size={22} color="#757474" />
+              <TextInput
+                style={styles.input}
+                placeholder="Full Name"
+                keyboardType="default"
+                placeholderTextColor="#9A9A9A"
               />
+            </View>
+
+            <View style={styles.inputWrapper}>
+              <Ionicons name="mail-outline" size={22} color="#757474" />
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Your Email"
+                keyboardType="email-address"
+                placeholderTextColor="#9A9A9A"
+              />
+            </View>
+
+            <View style={styles.inputWrapper}>
+              <Ionicons name="lock-closed-outline" size={22} color="#757474" />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry={!showPassword}
+                placeholderTextColor="#9A9A9A"
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? "eye-outline" : "eye-off-outline"}
+                  size={22}
+                  color="#757474"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <ThemedButton
+            text="Sign Up"
+            style={styles.signUpButton}
+            lightColor="#E3E3E3"
+            darkColor="#232627"
+            textLight="#fff"
+            textDark="#fff"
+            onPress={() => console.log("Sign Up")}
+          />
+
+          <View style={styles.loginContainer}>
+            <Text style={styles.haveAccountText}>
+              Already have an account?{" "}
+            </Text>
+            <TouchableOpacity onPress={() => router.push("/Login")}>
+              <Text style={styles.loginLink}>Login</Text>
             </TouchableOpacity>
           </View>
-        </View>
 
-        <ThemedButton
-          text="Sign Up"
-          style={styles.signUpButton}
-          lightColor="#E3E3E3"
-          darkColor="#232627"
-          textLight="#ffff"
-          textDark="#ffff"
-          onPress={() => console.log("Sign Up")}
-        />
-
-        <View style={styles.loginContainer}>
-          <Text style={styles.haveAccountText}>Already have an account? </Text>
-          <TouchableOpacity onPress={() => console.log("Go to Login")}>
-            <Text style={styles.loginLink}>Login</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.socialButtonsContainer}>
-          <ThemedButton
-            text="Google"
-            style={styles.googleButton}
-            lightColor="#141718"
-            darkColor="#232627"
-            onPress={() => console.log("Google")}
-          />
-          <ThemedButton
-            text="Facebook"
-            style={styles.facebookButton}
-            lightColor="#E3E3E3"
-            darkColor="#B1B1B1"
-            onPress={() => console.log("Facebook")}
-          />
-        </View>
-      </ThemedView>
-    </>
+          <View style={styles.socialButtonsContainer}>
+            <ThemedButton
+              text="Google"
+              style={styles.googleButton}
+              lightColor="#141718"
+              darkColor="#232627"
+              onPress={() => console.log("Google")}
+            />
+            <ThemedButton
+              text="Facebook"
+              style={styles.facebookButton}
+              lightColor="#E3E3E3"
+              darkColor="#B1B1B1"
+              onPress={() => console.log("Facebook")}
+            />
+          </View>
+        </ThemedView>
+      </KeyboardAwareScrollView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   container: {
     paddingTop: 45,
     paddingBottom: 60,
     paddingHorizontal: 35,
     flex: 1,
-  },
-  backButton: {
-    width: 45,
-    height: 45,
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
   },
   titleContainer: {
     marginTop: 73.81,
