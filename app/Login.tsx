@@ -2,6 +2,10 @@ import { useState } from "react";
 import { ThemedView } from "@/components/themed-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedButton } from "@/components/themed-button";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebaseConfig"
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   StyleSheet,
   TextInput,
@@ -32,7 +36,30 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data: object) => console.log("Form Data:", data);
+  const onSubmit = async (data: { email: string; password: string }) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      if (userCredential.user) {
+        try {
+         await AsyncStorage.setItem(
+           "userData",
+           JSON.stringify(userCredential.user)
+         );
+        } catch (error) {
+          console.error(error);
+       }
+      }
+      Alert.alert("Success", "Logged in successfully!");
+      router.push("/(tabs)");
+    } catch (error: any) {
+      Alert.alert("Error", error.message);
+    }
+  };
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

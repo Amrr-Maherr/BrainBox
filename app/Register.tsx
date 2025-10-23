@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ThemedView } from "@/components/themed-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedButton } from "@/components/themed-button";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 import {
   StyleSheet,
   TextInput,
@@ -10,6 +12,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -33,7 +36,23 @@ export default function Register() {
     },
   });
 
-  const onSubmit = (data: object) => console.log("Form Data:", data);
+  const onSubmit = async (data: {
+    fullName: string;
+    email: string;
+    password: string;
+  }) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      router.push("/Login");
+    } catch (error: any) {
+      Alert.alert("Error registering user:", error.message);
+    }
+  };
+
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
