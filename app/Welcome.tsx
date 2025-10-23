@@ -31,7 +31,7 @@ export default function Welcome() {
           lightColor="#141718"
           darkColor="#fff"
           textLight="#FFFFFF"
-          onPress={() => router.push("/Register")}
+          onPress={() => router.push("/Login")}
         />
         <ThemedButton
           text="Sign Up"
@@ -40,7 +40,7 @@ export default function Welcome() {
           darkColor="#232627"
           textLight="#B1B1B1"
           textDark="#B1B1B1"
-          onPress={() => console.log("sign up!")}
+          onPress={() => router.push("/Register")}
         />
       </View>
 
