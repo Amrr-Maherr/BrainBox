@@ -54,7 +54,7 @@ export default function Login() {
        }
       }
       Alert.alert("Success", "Logged in successfully!");
-      router.push("/(tabs)");
+      router.replace("/(tabs)");
     } catch (error: any) {
       Alert.alert("Error", error.message);
     }

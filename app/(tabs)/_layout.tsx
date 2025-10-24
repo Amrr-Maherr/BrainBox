@@ -3,7 +3,6 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
 import { HapticTab } from "@/components/haptic-tab";
-import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useFonts } from "expo-font";
 import {
