@@ -4,7 +4,7 @@ import { ThemedButton } from "./themed-button";
 import { useRouter } from "expo-router";
 
 export default function BackButton() {
-        const router = useRouter();
+      const router = useRouter();
   return (
     <ThemedButton
       lightColor="#ffffff"
