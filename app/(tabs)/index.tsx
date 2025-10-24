@@ -1,109 +1,136 @@
 import {
   StyleSheet,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Platform,
-  KeyboardAvoidingView,
   View,
-  FlatList,
+  TouchableOpacity,
+  ScrollView,
+  useColorScheme,
+  Image,
 } from "react-native";
 import { ThemedView } from "@/components/themed-view";
-import BackButton from "@/components/BackButton";
 import BrainBoxTitle from "@/components/BrainBoxTitle";
-import AiCard from "@/components/AiCard";
-import InputWithButton from "@/components/InputWithButton";
+import { ThemedText } from "@/components/themed-text";
+import { useRouter } from "expo-router";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
-interface AiItem {
-  title: string;
-  iconName: string;
-  iconColor: string;
-}
-
-export default function HomeScreen() {
-const aiData: AiItem[] = [
+const features = [
   {
-    title: "Remembers previous messages for context-aware replies.",
-    iconName: "history-edu",
-    iconColor: "#007AFF",
+    title: "Context-aware replies",
+    icon: "history",
+    lightColor: "#007AFF",
+    darkColor: "#5AC8FA",
   },
   {
-    title: "Allows follow-up corrections to improve accuracy.",
-    iconName: "edit",
-    iconColor: "#FF9500",
+    title: "Follow-up corrections",
+    icon: "edit",
+    lightColor: "#FF9500",
+    darkColor: "#FF9F0A",
   },
   {
-    title: "Knows general world knowledge up to 2021.",
-    iconName: "public",
-    iconColor: "#34C759",
+    title: "General knowledge AI",
+    icon: "public",
+    lightColor: "#34C759",
+    darkColor: "#30D158",
   },
   {
-    title: "Generates fast and efficient responses.",
-    iconName: "bolt",
-    iconColor: "#FF2D55",
-  },
-  {
-    title: "May occasionally provide inaccurate or biased content.",
-    iconName: "warning",
-    iconColor: "#FFCC00",
+    title: "Fast & efficient",
+    icon: "bolt",
+    lightColor: "#FF2D55",
+    darkColor: "#FF375F",
   },
 ];
 
+export default function HomeScreen() {
+  const colorScheme = useColorScheme();
+  const router = useRouter();
+  const goToChat = () => router.push("/Main");
 
   return (
-    <KeyboardAvoidingView
-      style={styles.keyboardView}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+    <ThemedView
+      lightColor="#FFFFFF"
+      darkColor="#141718"
+      style={styles.container}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ThemedView
-          lightColor="#FFFFFF"
-          darkColor="#141718"
-          style={styles.container}
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <BrainBoxTitle />
+        <ThemedText
+          lightColor="#222"
+          darkColor="#A0A0A5"
+          style={styles.introText}
         >
-          <View style={styles.backButtonWrapper}>
-            <BackButton />
-          </View>
-          <BrainBoxTitle />
-          <View style={styles.listContainer}>
-            <FlatList
-              data={aiData}
-              keyExtractor={(item) => item.title}
-              renderItem={({ item }) => (
-                <AiCard
-                  title={item.title}
-                  icon={item.iconName}
-                  iconColor={item.iconColor}
-                />
-              )}
-              showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="handled"
-              contentContainerStyle={styles.flatListContent}
-            />
-          </View>
-          <InputWithButton />
-        </ThemedView>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+          Welcome to BrainBox! {"\n\n"}
+          Your AI assistant ready to help you with answers, advice, and
+          guidance.
+        </ThemedText>
+        <View style={styles.featuresContainer}>
+          {features.map((item, index) => (
+            <ThemedView
+              key={index}
+              lightColor="#F7F7F8"
+              darkColor="#232627"
+              style={styles.featureCard}
+            >
+              <Icon
+                name={item.icon}
+                size={24}
+                color={
+                  colorScheme === "dark" ? item.darkColor : item.lightColor
+                }
+              />
+              <ThemedText
+                lightColor="#222"
+                darkColor="#A0A0A5"
+                style={styles.featureText}
+              >
+                {item.title}
+              </ThemedText>
+            </ThemedView>
+          ))}
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={goToChat}>
+          <Icon name="send" size={20} color="#fff" style={{ marginRight: 8 }} />
+          <ThemedText
+            lightColor="#fff"
+            darkColor="#fff"
+            style={styles.buttonText}
+          >
+            Start Chat
+          </ThemedText>
+        </TouchableOpacity>
+      </ScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  keyboardView: {
-    flex: 1,
+  container: { flex: 1, paddingHorizontal: 25 },
+  scroll: { paddingVertical: 60, alignItems: "center" },
+  introText: {
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: "center",
+    marginBottom: 30,
   },
-  container: {
-    flex: 1,
-    paddingHorizontal: 35,
+  featuresContainer: { width: "100%", marginBottom: 40 },
+  featureCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 12,
   },
-  backButtonWrapper: {
-    width: "100%",
-    marginTop: 40,
+  featureText: { marginLeft: 12, fontSize: 14, fontWeight: "500" },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#007AFF",
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 12,
   },
-  listContainer: {
-    flex: 1,
-  },
-  flatListContent: {
-    paddingBottom: 100,
+  buttonText: { fontSize: 16, fontWeight: "600" },
+  image: {
+    width: 154,
+    height: 184.35,
   },
 });
