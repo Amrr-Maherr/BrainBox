@@ -35,7 +35,7 @@ export default function RootLayout() {
                 },
                 animation: "fade",
               }}
-              initialRouteName="VoiceChatScreen"
+              initialRouteName="index"
             >
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="index" />
@@ -44,7 +44,6 @@ export default function RootLayout() {
               <Stack.Screen name="Login" />
               <Stack.Screen name="Settings" />
               <Stack.Screen name="EditProfile" />
-              <Stack.Screen name="VoiceChatScreen" />
             </Stack>
             <StatusBar style={isDark ? "light" : "dark"} />
           </ThemeProvider>
