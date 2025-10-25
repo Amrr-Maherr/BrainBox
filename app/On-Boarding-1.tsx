@@ -113,7 +113,9 @@ export default function On_Boarding_1() {
       {/* Dots Indicators */}
       <View style={Styles.dotsContainer}>
         {SplashScreenData.map((_, index) => (
-          <View
+          <ThemedView
+            lightColor="#141718"
+            darkColor="#fff"
             key={index}
             style={[Styles.dot, currentIndex === index && Styles.activeDot]}
           />
@@ -184,11 +186,11 @@ const Styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#23262f88",
+    // backgroundColor: "#23262f88",
     marginHorizontal: 5,
   },
   activeDot: {
-    backgroundColor: "#141718",
+    // backgroundColor: "#141718",
     width: 16,
   },
 });
