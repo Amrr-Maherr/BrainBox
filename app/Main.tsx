@@ -51,9 +51,8 @@ console.log(chat, "state");
         >
           <View style={styles.backButtonWrapper}>
             <BackButton />
-            <BackButton />
           </View>
-          {chat ? (
+          {chat.length ? (
             <ChatList />
           ) : (
             <>

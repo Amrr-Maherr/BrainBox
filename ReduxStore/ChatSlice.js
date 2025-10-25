@@ -15,9 +15,14 @@ export const CreateChat = createAsyncThunk("chat/create", async (query) => {
       },
     ],
   });
+  const egyptTime = new Date().toLocaleTimeString("en-US", {
+    timeZone: "Africa/Cairo",
+    hour12: true,
+  });
   return {
     userMessage: query,
     botMessage: response.text,
+    time: egyptTime,
   };
 });
 
@@ -47,6 +52,7 @@ const chatSlice = createSlice({
         state.chat.push({
           user: action.payload.userMessage,
           bot: action.payload.botMessage,
+          time: action.payload.time,
         });
       })
       .addCase(CreateChat.rejected, (state, action) => {
