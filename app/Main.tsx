@@ -12,8 +12,9 @@ import BackButton from "@/components/BackButton";
 import BrainBoxTitle from "@/components/BrainBoxTitle";
 import AiCard from "@/components/AiCard";
 import InputWithButton from "@/components/InputWithButton";
-import { Image } from "expo-image";
-
+import type { RootState, AppDispatch } from "@/ReduxStore/store";
+import { useSelector } from "react-redux";
+import ChatList from "@/components/ChatList";
 interface AiItem {
   title: string;
   iconName: string;
@@ -32,7 +33,8 @@ const aiData: AiItem[] = [
     iconColor: "#FFCC00",
   },
 ];
-
+  const { chat, loading, error } = useSelector((state: RootState) => state.chat);
+console.log(chat, "state");
 
 
   return (
@@ -49,24 +51,32 @@ const aiData: AiItem[] = [
         >
           <View style={styles.backButtonWrapper}>
             <BackButton />
+            <BackButton />
           </View>
-          <BrainBoxTitle />
-          <View style={styles.listContainer}>
-            <FlatList
-              data={aiData}
-              keyExtractor={(item) => item.title}
-              renderItem={({ item }) => (
-                <AiCard
-                  title={item.title}
-                  icon={item.iconName}
-                  iconColor={item.iconColor}
+          {chat ? (
+            <ChatList />
+          ) : (
+            <>
+              <BrainBoxTitle />
+              <View style={styles.listContainer}>
+                <FlatList
+                  data={aiData}
+                  keyExtractor={(item) => item.title}
+                  renderItem={({ item }) => (
+                    <AiCard
+                      title={item.title}
+                      icon={item.iconName}
+                      iconColor={item.iconColor}
+                    />
+                  )}
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
+                  keyboardShouldPersistTaps="handled"
+                  contentContainerStyle={styles.flatListContent}
                 />
-              )}
-              showsVerticalScrollIndicator={false}
-              keyboardShouldPersistTaps="handled"
-              contentContainerStyle={styles.flatListContent}
-            />
-          </View>
+              </View>
+            </>
+          )}
           <InputWithButton />
         </ThemedView>
       </TouchableWithoutFeedback>
@@ -80,11 +90,15 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 35,
+    paddingHorizontal: 15,
   },
   backButtonWrapper: {
     width: "100%",
     marginTop: 40,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    paddingVertical:10
   },
   listContainer: {
     flex: 1,
