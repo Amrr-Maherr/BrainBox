@@ -9,10 +9,10 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  Text,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  useColorScheme,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,6 +23,8 @@ import { useForm, Controller } from "react-hook-form";
 export default function Register() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
 
   const {
     control,
@@ -42,17 +44,12 @@ export default function Register() {
     password: string;
   }) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
       router.push("/Login");
     } catch (error: any) {
       Alert.alert("Error registering user:", error.message);
     }
   };
-
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -63,30 +60,44 @@ export default function Register() {
         keyboardShouldPersistTaps="handled"
       >
         <ThemedView
-          lightColor="#fff"
+          lightColor="#F7F8FA"
           darkColor="#141718"
           style={styles.container}
         >
           <BackButton />
 
           <View style={styles.titleContainer}>
-            <ThemedText style={styles.title}>Create your Account</ThemedText>
+            <ThemedText
+              lightColor="#141718"
+              darkColor="#FFFFFF"
+              style={styles.title}
+            >
+              Create your Account
+            </ThemedText>
           </View>
 
           <View style={styles.inputsContainer}>
             {/* Full Name */}
             <Controller
               control={control}
-              rules={{
-                required: "Full name is required",
-              }}
+              rules={{ required: "Full name is required" }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <View style={styles.inputWrapper}>
+                <View
+                  style={[
+                    styles.inputWrapper,
+                    {
+                      backgroundColor: isDark ? "#232627" : "#E9E9E9",
+                    },
+                  ]}
+                >
                   <Ionicons name="person-outline" size={22} color="#757474" />
                   <TextInput
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      { color: isDark ? "#FFFFFF" : "#141718" },
+                    ]}
                     placeholder="Full Name"
-                    placeholderTextColor="#9A9A9A"
+                    placeholderTextColor={isDark ? "#9A9A9A" : "#7C7C7C"}
                     keyboardType="default"
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -97,24 +108,36 @@ export default function Register() {
               name="fullName"
             />
             {errors.fullName && (
-              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+              <ThemedText
+                lightColor="red"
+                darkColor="red"
+                style={{ alignSelf: "flex-start" }}
+              >
                 {errors.fullName.message}
-              </Text>
+              </ThemedText>
             )}
 
             {/* Email */}
             <Controller
               control={control}
-              rules={{
-                required: "Email is required",
-              }}
+              rules={{ required: "Email is required" }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <View style={styles.inputWrapper}>
+                <View
+                  style={[
+                    styles.inputWrapper,
+                    {
+                      backgroundColor: isDark ? "#232627" : "#E9E9E9",
+                    },
+                  ]}
+                >
                   <Ionicons name="mail-outline" size={22} color="#757474" />
                   <TextInput
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      { color: isDark ? "#FFFFFF" : "#141718" },
+                    ]}
                     placeholder="Enter Your Email"
-                    placeholderTextColor="#9A9A9A"
+                    placeholderTextColor={isDark ? "#9A9A9A" : "#7C7C7C"}
                     keyboardType="email-address"
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -125,9 +148,13 @@ export default function Register() {
               name="email"
             />
             {errors.email && (
-              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+              <ThemedText
+                lightColor="red"
+                darkColor="red"
+                style={{ alignSelf: "flex-start" }}
+              >
                 {errors.email.message}
-              </Text>
+              </ThemedText>
             )}
 
             {/* Password */}
@@ -141,16 +168,26 @@ export default function Register() {
                 },
               }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <View style={styles.inputWrapper}>
+                <View
+                  style={[
+                    styles.inputWrapper,
+                    {
+                      backgroundColor: isDark ? "#232627" : "#E9E9E9",
+                    },
+                  ]}
+                >
                   <Ionicons
                     name="lock-closed-outline"
                     size={22}
                     color="#757474"
                   />
                   <TextInput
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      { color: isDark ? "#FFFFFF" : "#141718" },
+                    ]}
                     placeholder="Password"
-                    placeholderTextColor="#9A9A9A"
+                    placeholderTextColor={isDark ? "#9A9A9A" : "#7C7C7C"}
                     secureTextEntry={!showPassword}
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -170,9 +207,13 @@ export default function Register() {
               name="password"
             />
             {errors.password && (
-              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+              <ThemedText
+                lightColor="red"
+                darkColor="red"
+                style={{ alignSelf: "flex-start" }}
+              >
                 {errors.password.message}
-              </Text>
+              </ThemedText>
             )}
           </View>
 
@@ -187,15 +228,27 @@ export default function Register() {
             onPress={handleSubmit(onSubmit)}
           />
 
+          {/* Already have an account */}
           <View style={styles.loginContainer}>
-            <Text style={styles.haveAccountText}>
-              Already have an account?{" "}
-            </Text>
+            <ThemedText
+              lightColor="#6B6B6B"
+              darkColor="#B8B8B8"
+              style={styles.haveAccountText}
+            >
+              Already have an account?
+            </ThemedText>
             <TouchableOpacity onPress={() => router.push("/Login")}>
-              <Text style={styles.loginLink}>Login</Text>
+              <ThemedText
+                lightColor="#007AFF"
+                darkColor="#5DAEFF"
+                style={styles.loginLink}
+              >
+                Login
+              </ThemedText>
             </TouchableOpacity>
           </View>
 
+          {/* Social Buttons */}
           <View style={styles.socialButtonsContainer}>
             <ThemedButton
               text="Google"
@@ -234,7 +287,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 38,
     fontWeight: "600",
-    color: "#fff",
   },
   inputsContainer: {
     alignItems: "center",
@@ -246,7 +298,6 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#232627",
     borderRadius: 12.84,
     height: 65.52,
     width: "100%",
@@ -255,7 +306,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    color: "#fff",
     fontSize: 16,
   },
   signUpButton: {
@@ -270,16 +320,15 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   haveAccountText: {
-    color: "#9A9A9A",
     fontSize: 15,
   },
   loginLink: {
-    color: "#fff",
     fontSize: 15,
     fontWeight: "600",
+    marginLeft: 4,
   },
   socialButtonsContainer: {
-    margin: "auto",
+    marginTop: 25,
     gap: 15,
     flexDirection: "row",
     width: "100%",

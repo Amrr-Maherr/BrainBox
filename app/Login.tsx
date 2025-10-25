@@ -3,7 +3,7 @@ import { ThemedView } from "@/components/themed-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedButton } from "@/components/themed-button";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebaseConfig"
+import { auth } from "@/firebaseConfig";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -11,9 +11,9 @@ import {
   TextInput,
   View,
   TouchableOpacity,
-  Text,
   TouchableWithoutFeedback,
   Keyboard,
+  useColorScheme,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons } from "@expo/vector-icons";
@@ -24,6 +24,7 @@ import { useForm, Controller } from "react-hook-form";
 export default function Login() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const theme = useColorScheme();
 
   const {
     control,
@@ -45,13 +46,13 @@ export default function Login() {
       );
       if (userCredential.user) {
         try {
-         await AsyncStorage.setItem(
-           "userData",
-           JSON.stringify(userCredential.user)
-         );
+          await AsyncStorage.setItem(
+            "userData",
+            JSON.stringify(userCredential.user)
+          );
         } catch (error) {
           console.error(error);
-       }
+        }
       }
       Alert.alert("Success", "Logged in successfully!");
       router.replace("/(tabs)");
@@ -59,7 +60,6 @@ export default function Login() {
       Alert.alert("Error", error.message);
     }
   };
-
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -70,32 +70,55 @@ export default function Login() {
         keyboardShouldPersistTaps="handled"
       >
         <ThemedView
-          lightColor="#fff"
+          lightColor="#F7F8FA"
           darkColor="#141718"
           style={styles.container}
         >
           <BackButton />
 
           <View style={styles.titleContainer}>
-            <ThemedText style={styles.title}>Welcome Back</ThemedText>
-            <Text style={styles.subtitle}>Login to your account</Text>
+            <ThemedText
+              lightColor="#141718"
+              darkColor="#FFFFFF"
+              style={styles.title}
+            >
+              Welcome Back
+            </ThemedText>
+            <ThemedText
+              lightColor="#6B6B6B"
+              darkColor="#B8B8B8"
+              style={styles.subtitle}
+            >
+              Login to your account
+            </ThemedText>
           </View>
 
           <View style={styles.inputsContainer}>
-            {/* Email Input */}
             <Controller
               control={control}
               rules={{
                 required: "Email is required",
               }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <View style={styles.inputWrapper}>
+                <View
+                  style={[
+                    styles.inputWrapper,
+                    {
+                      backgroundColor: theme === "dark" ? "#232627" : "#E6E6E6",
+                    },
+                  ]}
+                >
                   <Ionicons name="mail-outline" size={22} color="#757474" />
                   <TextInput
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      { color: theme === "dark" ? "#fff" : "#141718" },
+                    ]}
                     placeholder="Enter Your Email"
                     keyboardType="email-address"
-                    placeholderTextColor="#9A9A9A"
+                    placeholderTextColor={
+                      theme === "dark" ? "#9A9A9A" : "#7C7C7C"
+                    }
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
@@ -105,29 +128,44 @@ export default function Login() {
               name="email"
             />
             {errors.email && (
-              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+              <ThemedText
+                lightColor="red"
+                darkColor="red"
+                style={{ alignSelf: "flex-start" }}
+              >
                 {errors.email.message}
-              </Text>
+              </ThemedText>
             )}
 
-            {/* Password Input */}
             <Controller
               control={control}
               rules={{
                 required: "Password is required",
               }}
               render={({ field: { onChange, onBlur, value } }) => (
-                <View style={styles.inputWrapper}>
+                <View
+                  style={[
+                    styles.inputWrapper,
+                    {
+                      backgroundColor: theme === "dark" ? "#232627" : "#E6E6E6",
+                    },
+                  ]}
+                >
                   <Ionicons
                     name="lock-closed-outline"
                     size={22}
                     color="#757474"
                   />
                   <TextInput
-                    style={styles.input}
+                    style={[
+                      styles.input,
+                      { color: theme === "dark" ? "#fff" : "#141718" },
+                    ]}
                     placeholder="Password"
                     secureTextEntry={!showPassword}
-                    placeholderTextColor="#9A9A9A"
+                    placeholderTextColor={
+                      theme === "dark" ? "#9A9A9A" : "#7C7C7C"
+                    }
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
@@ -146,9 +184,13 @@ export default function Login() {
               name="password"
             />
             {errors.password && (
-              <Text style={{ color: "red", alignSelf: "flex-start" }}>
+              <ThemedText
+                lightColor="red"
+                darkColor="red"
+                style={{ alignSelf: "flex-start" }}
+              >
                 {errors.password.message}
-              </Text>
+              </ThemedText>
             )}
           </View>
 
@@ -156,10 +198,15 @@ export default function Login() {
             style={styles.forgotPasswordContainer}
             onPress={() => console.log("Forgot Password")}
           >
-            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+            <ThemedText
+              lightColor="#007AFF"
+              darkColor="#5DAEFF"
+              style={styles.forgotPasswordText}
+            >
+              Forgot Password?
+            </ThemedText>
           </TouchableOpacity>
 
-          {/* Submit Button */}
           <ThemedButton
             text="Login"
             style={styles.loginButton}
@@ -171,9 +218,21 @@ export default function Login() {
           />
 
           <View style={styles.registerContainer}>
-            <Text style={styles.noAccountText}>Don't have an account? </Text>
+            <ThemedText
+              lightColor="#6B6B6B"
+              darkColor="#B8B8B8"
+              style={styles.noAccountText}
+            >
+              Don’t have an account?
+            </ThemedText>
             <TouchableOpacity onPress={() => router.push("/Register")}>
-              <Text style={styles.registerLink}>Sign Up</Text>
+              <ThemedText
+                lightColor="#007AFF"
+                darkColor="#5DAEFF"
+                style={styles.registerLink}
+              >
+                Sign Up
+              </ThemedText>
             </TouchableOpacity>
           </View>
 
@@ -211,10 +270,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 38,
     fontWeight: "600",
-    color: "#fff",
   },
   subtitle: {
-    color: "#9A9A9A",
     fontSize: 16,
     marginTop: 5,
   },
@@ -228,7 +285,6 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#232627",
     borderRadius: 12.84,
     height: 65.52,
     width: "100%",
@@ -237,7 +293,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    color: "#fff",
     fontSize: 16,
   },
   forgotPasswordContainer: {
@@ -245,7 +300,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   forgotPasswordText: {
-    color: "#9A9A9A",
     fontSize: 15,
   },
   loginButton: {
@@ -258,13 +312,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 20,
+    gap: 5,
   },
   noAccountText: {
-    color: "#9A9A9A",
     fontSize: 15,
   },
   registerLink: {
-    color: "#fff",
     fontSize: 15,
     fontWeight: "600",
   },

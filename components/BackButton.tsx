@@ -4,7 +4,8 @@ import { ThemedButton } from "./themed-button";
 import { useRouter } from "expo-router";
 
 export default function BackButton() {
-      const router = useRouter();
+  const router = useRouter();
+
   return (
     <ThemedButton
       lightColor="#ffffff"
@@ -26,5 +27,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 0,
     paddingHorizontal: 0,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 6,
   },
 });
