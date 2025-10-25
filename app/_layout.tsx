@@ -35,13 +35,15 @@ export default function RootLayout() {
                 },
                 animation: "fade",
               }}
-              initialRouteName="index"
+              initialRouteName="(tabs)"
             >
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="index" />
               <Stack.Screen name="Welcome" />
               <Stack.Screen name="Register" />
               <Stack.Screen name="Login" />
+              <Stack.Screen name="Settings" />
+              <Stack.Screen name="EditProfile" />
             </Stack>
             <StatusBar style={isDark ? "light" : "dark"} />
           </ThemeProvider>

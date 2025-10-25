@@ -1,14 +1,14 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import { ThemedView } from "@/components/themed-view";
 import { ThemedText } from "@/components/themed-text";
+import { ThemedButton } from "@/components/themed-button";
 
 export default function Profile() {
   const user = {
     uid: "rWKP0sYbx0hy10D3SdpNSKVlpuX2",
     email: "amrm80233@gmail.com",
     emailVerified: false,
-    isAnonymous: false,
     providerData: [
       {
         providerId: "password",
@@ -19,15 +19,8 @@ export default function Profile() {
         photoURL: null,
       },
     ],
-    stsTokenManager: {
-      accessToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjdlYTA5ZDA1NzI2MmU2M2U2...",
-      expirationTime: 1761257225852,
-      refreshToken: "AMf-vBzoqHbwR_KsgLdewlrbNChGZg0B5LYts-ZoiK-Z3HN7hh26...",
-    },
     createdAt: "1761252672971",
     lastLoginAt: "1761253568521",
-    apiKey: "AIzaSyC4uD8nn-w2Xu49I6VT1IpeUG3DnK3fOME",
-    appName: "[DEFAULT]",
   };
 
   return (
@@ -51,7 +44,7 @@ export default function Profile() {
 
       <View style={styles.infoCard}>
         <ThemedText type="subtitle" style={styles.sectionTitle}>
-          Firebase User Data
+          User Data
         </ThemedText>
 
         <View style={styles.infoRow}>
@@ -85,13 +78,24 @@ export default function Profile() {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={[styles.button, styles.editButton]}>
-          <Text style={styles.buttonText}>Edit Profile</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.button, styles.logoutButton]}>
-          <Text style={[styles.buttonText, { color: "#fff" }]}>Logout</Text>
-        </TouchableOpacity>
+        <ThemedButton
+          text="Edit Profile"
+          style={styles.button}
+          lightColor="#E3E3E3"
+          darkColor="#232627"
+          textLight="#141718"
+          textDark="#fff"
+          onPress={() => console.log("Edit Profile pressed")}
+        />
+        <ThemedButton
+          text="Settings"
+          style={styles.button}
+          lightColor="#E3E3E3"
+          darkColor="#232627"
+          textLight="#141718"
+          textDark="#fff"
+          onPress={() => console.log("Settings pressed")}
+        />
       </View>
     </ThemedView>
   );
@@ -127,6 +131,7 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 16,
     backgroundColor: "rgba(0,0,0,0.05)",
+    marginBottom: 30,
   },
   sectionTitle: {
     fontSize: 18,
@@ -147,24 +152,13 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     width: "100%",
-    marginTop: 30,
+    gap: 12,
   },
   button: {
-    paddingVertical: 14,
-    borderRadius: 12,
+    width: "100%",
+    height: 55,
+    borderRadius: 15,
+    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 12,
-  },
-  editButton: {
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: "#999",
-  },
-  logoutButton: {
-    backgroundColor: "#e53935",
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "600",
   },
 });
