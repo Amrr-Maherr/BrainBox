@@ -35,6 +35,8 @@ const aiData: AiItem[] = [
 ];
   const { chat, loading, error } = useSelector((state: RootState) => state.chat);
 console.log(chat, "state");
+console.log(error, "error");
+// console.log(chat, "state");
 
 
   return (

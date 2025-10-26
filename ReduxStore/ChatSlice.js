@@ -10,19 +10,32 @@ export const CreateChat = createAsyncThunk("chat/create", async (query) => {
     model: "gemini-2.5-flash",
     contents: [
       {
+        role: "model",
+        parts: [
+          {
+            text: "You are a friendly AI assistant called BrainBox. You always reply concisely and helpfully.",
+          },
+        ],
+      },
+      {
         role: "user",
         parts: [{ text: query }],
       },
     ],
   });
+
   const egyptTime = new Date().toLocaleTimeString("en-US", {
     timeZone: "Africa/Cairo",
     hour12: true,
   });
+
   return {
     userMessage: query,
     botMessage: response.text,
     time: egyptTime,
+    totalTokenCount: response.usageMetadata?.totalTokenCount || 0,
+    promptTokenCount: response.usageMetadata?.promptTokenCount || 0,
+    candidatesTokenCount: response.usageMetadata?.candidatesTokenCount || 0,
   };
 });
 
@@ -47,12 +60,15 @@ const chatSlice = createSlice({
         state.error = null;
       })
       .addCase(CreateChat.fulfilled, (state, action) => {
-        state.loading = null;
-        state.error = false
+        state.loading = false;
+        state.error = false;
         state.chat.push({
           user: action.payload.userMessage,
           bot: action.payload.botMessage,
           time: action.payload.time,
+          totalTokens: action.payload.totalTokenCount,
+          promptTokens: action.payload.promptTokenCount,
+          candidateTokens: action.payload.candidatesTokenCount,
         });
       })
       .addCase(CreateChat.rejected, (state, action) => {
