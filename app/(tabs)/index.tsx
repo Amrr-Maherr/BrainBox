@@ -19,35 +19,10 @@ import {
 } from "react-native-safe-area-context";
 import BackButton from "@/components/BackButton";
 import CategoriesList from "@/components/Categories/CategoriesList";
+import TypesList from "@/components/TypesList/TypesList";
 
-const features = [
-  {
-    title: "Context-aware replies",
-    icon: "history",
-    lightColor: "#007AFF",
-    darkColor: "#5AC8FA",
-  },
-  {
-    title: "Follow-up corrections",
-    icon: "edit",
-    lightColor: "#FF9500",
-    darkColor: "#FF9F0A",
-  },
-  {
-    title: "General knowledge AI",
-    icon: "public",
-    lightColor: "#34C759",
-    darkColor: "#30D158",
-  },
-  {
-    title: "Fast & efficient",
-    icon: "bolt",
-    lightColor: "#FF2D55",
-    darkColor: "#FF375F",
-  },
-];
 const Categories = [
-  { title: "All", icon: "sports-soccer" },
+  { title: "All", icon: "category" },
   { title: "Sports", icon: "sports-soccer" },
   { title: "Music", icon: "music-note" },
   { title: "News", icon: "newspaper" },
@@ -62,41 +37,43 @@ const Categories = [
   { title: "Movies", icon: "movie" },
   { title: "Gaming", icon: "sports-esports" },
 ];
+
 const SocialMedia = [
-  { title: "Facebook", icon: "facebook" },
-  { title: "Instagram", icon: "instagram" },
-  { title: "X (Twitter)", icon: "twitter" },
-  { title: "LinkedIn", icon: "linkedin" },
-  { title: "YouTube", icon: "youtube" },
-  { title: "TikTok", icon: "music-note" },
-  { title: "Snapchat", icon: "camera-alt" },
-  { title: "Pinterest", icon: "image" },
-  { title: "Reddit", icon: "reddit" },
-  { title: "WhatsApp", icon: "chat-bubble" },
+  { title: "Facebook", icon: "thumb-up", text: "Gen Text: Facebook" },
+  { title: "Instagram", icon: "photo-camera", text: "Gen Text: Instagram" },
+  { title: "X (Twitter)", icon: "chat", text: "Gen Text: Twitter" },
+  { title: "LinkedIn", icon: "business-center", text: "Gen Text: LinkedIn" },
+  { title: "YouTube", icon: "ondemand-video", text: "Gen Text: YouTube" },
+  { title: "TikTok", icon: "music-note", text: "Gen Text: TikTok" },
+  { title: "Snapchat", icon: "camera-alt", text: "Gen Text: Snapchat" },
+  { title: "Pinterest", icon: "push-pin", text: "Gen Text: Pinterest" },
+  { title: "Reddit", icon: "forum", text: "Gen Text: Reddit" },
+  { title: "WhatsApp", icon: "chat-bubble", text: "Gen Text: WhatsApp" },
 ];
+
 const SportsSocialMedia = [
-  { title: "ESPN", icon: "sports-soccer" },
-  { title: "Nike", icon: "directions-run" },
-  { title: "NBA", icon: "sports-basketball" },
-  { title: "FIFA", icon: "stadium" },
-  { title: "Bleacher Report", icon: "sports-score" },
-  { title: "Red Bull Racing", icon: "directions-car" },
+  { title: "ESPN", icon: "sports-soccer", text: "Gen Text: ESPN" },
+  { title: "Nike", icon: "directions-run", text: "Gen Text: Nike" },
+  { title: "NBA", icon: "sports-basketball", text: "Gen Text: NBA" },
+  { title: "FIFA", icon: "stadium", text: "Gen Text: FIFA" },
+  { title: "B. Report", icon: "sports-score", text: "Gen Text: Report" },
+  { title: "RBR", icon: "directions-car", text: "Gen Text: RBR" },
 ];
+
 const HealthSocialMedia = [
-  { title: "WHO", icon: "health-and-safety" },
-  { title: "Mayo Clinic", icon: "local-hospital" },
-  { title: "WebMD", icon: "medical-services" },
-  { title: "CDC", icon: "coronavirus" },
-  { title: "Fitness Blender", icon: "fitness-center" },
-  { title: "MyFitnessPal", icon: "scale" },
+  { title: "WHO", icon: "health-and-safety", text: "Gen Text: WHO" },
+  { title: "Mayo", icon: "local-hospital", text: "Gen Text: Mayo" },
+  { title: "WebMD", icon: "medical-services", text: "Gen Text: WebMD" },
+  { title: "CDC", icon: "coronavirus", text: "Gen Text: CDC" },
+  { title: "FitBlend", icon: "fitness-center", text: "Gen Text: FitBlend" },
+  { title: "MyFitPal", icon: "scale", text: "Gen Text: MyFitPal" },
 ];
-console.log(Categories, "Categories");
-console.log(SocialMedia, "SocialMedia");
-console.log(SportsSocialMedia, "SportsSocialMedia");
-console.log(HealthSocialMedia, "HealthSocialMedia");
+
+
 
 export default function HomeScreen() {
-  const colorScheme = useColorScheme();
+  const colors = useColorScheme();
+  const textColor = colors === "dark" ? "#FFFFFF" : "#141718";
   const router = useRouter();
   const goToChat = () => router.push("/Main");
 
@@ -106,7 +83,6 @@ export default function HomeScreen() {
       darkColor="#141718"
       style={styles.container}
     >
-      {" "}
       <SafeAreaView style={{ flex: 1 }}>
         <View
           style={{
@@ -119,24 +95,60 @@ export default function HomeScreen() {
           }}
         >
           <Text
-            style={{ fontSize: 22, fontWeight: "semibold", color: "white" }}
+            style={{
+              fontSize: 22,
+              fontWeight: "600",
+              color: colors === "dark" ? "#FFFFFF" : "#000000",
+            }}
           >
             Ai Assistant
           </Text>
           <BackButton />
         </View>
-        <View
-          style={{
-            gap: 69,
-            alignItems: "center",
-            justifyContent: "flex-end",
-            width: "100%",
-            flexDirection: "row-reverse",
-            paddingTop: 49,
-          }}
-        >
-          <CategoriesList Categories={Categories}/>
-        </View>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+          <View
+            style={{
+              gap: 69,
+              alignItems: "center",
+              justifyContent: "flex-end",
+              width: "100%",
+              flexDirection: "row-reverse",
+              paddingTop: 49,
+            }}
+          >
+            <CategoriesList Categories={Categories} />
+          </View>
+          <View
+            style={{
+              gap: 33,
+              alignItems: "center",
+              width: "100%",
+              paddingTop: 46,
+            }}
+          >
+            <TypesList Types={SocialMedia} TypesTitle="Social Media" />
+          </View>
+          <View
+            style={{
+              gap: 33,
+              alignItems: "center",
+              width: "100%",
+              paddingTop: 46,
+            }}
+          >
+            <TypesList Types={SportsSocialMedia} TypesTitle="Health" />
+          </View>
+          <View
+            style={{
+              gap: 33,
+              alignItems: "center",
+              width: "100%",
+              paddingTop: 46,
+            }}
+          >
+            <TypesList Types={HealthSocialMedia} TypesTitle="Sports" />
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </ThemedView>
   );

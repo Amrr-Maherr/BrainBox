@@ -1,5 +1,5 @@
 import { FlatList } from "react-native";
-import CategoriesBox from "../CategoriesBox";
+import CategoriesBox from "../Categories/CategoriesBox";
 
 interface CategoryItem {
   title: string;
@@ -18,13 +18,11 @@ export default function CategoriesList({ Categories }: CategoriesListProps) {
         renderItem={({ item }) => <CategoriesBox item={item} />}
         keyExtractor={(item) => item.title}
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
             gap:13
         }}
       />
-      {/* {Categories?.map((item, index) => (
-        <CategoriesBox key={index} item={item} />
-      ))} */}
     </>
   );
 }
