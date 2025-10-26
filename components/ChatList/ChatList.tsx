@@ -33,7 +33,7 @@ export default function ChatList() {
         data={chatState}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => <ChatMessage item={item} />}
-        contentContainerStyle={{ padding: 16, paddingBottom: 130 }}
+        contentContainerStyle={{paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
       />
     </KeyboardAvoidingView>

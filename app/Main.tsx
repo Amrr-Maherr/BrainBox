@@ -12,8 +12,12 @@ import {
   StyleSheet,
   View,
   ActivityIndicator,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { clearChat } from "@/ReduxStore/ChatSlice";
 
 interface AiItem {
   title: string;
@@ -38,9 +42,28 @@ export default function Main() {
     },
   ];
 
-  const { chat, loading, error } = useSelector(
-    (state: RootState) => state.chat
-  );
+  const dispatch = useDispatch();
+  const { chat, loading } = useSelector((state: RootState) => state.chat);
+
+  const handleClearChat = () => {
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to clear the chat?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Yes, Clear",
+          onPress: () => dispatch(clearChat()),
+          style: "destructive",
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const handleSaveChat = () => {
+    Alert.alert("Save Chat", "This feature will be available soon!");
+  };
 
   return (
     <KeyboardAvoidingView
@@ -53,8 +76,31 @@ export default function Main() {
         darkColor="#141718"
         style={styles.container}
       >
-        <View style={styles.backButtonWrapper}>
+        <View style={styles.header}>
           <BackButton />
+          <View style={styles.iconGroup}>
+            <TouchableOpacity
+              disabled={chat.length === 0}
+              onPress={handleSaveChat}
+              style={[
+                styles.iconButton,
+                { opacity: chat.length > 0 ? 1 : 0.5 },
+              ]}
+            >
+              <Icon name="bookmark-outline" size={26} color="#007AFF" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              disabled={chat.length === 0}
+              onPress={handleClearChat}
+              style={[
+                styles.iconButton,
+                { opacity: chat.length > 0 ? 1 : 0.5 },
+              ]}
+            >
+              <Icon name="delete-outline" size={26} color="#FF3B30" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         {loading ? (
@@ -96,13 +142,20 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
-  backButtonWrapper: {
+  header: {
     width: "100%",
     marginTop: 40,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     paddingVertical: 10,
+  },
+  iconGroup: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  iconButton: {
+    padding: 4,
   },
   listContainer: {
     flex: 1,
