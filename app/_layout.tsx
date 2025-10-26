@@ -35,7 +35,7 @@ export default function RootLayout() {
                 },
                 animation: "fade",
               }}
-              initialRouteName="index"
+              initialRouteName="(tabs)"
             >
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="index" />

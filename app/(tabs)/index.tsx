@@ -5,12 +5,20 @@ import {
   ScrollView,
   useColorScheme,
   Image,
+  Text,
 } from "react-native";
 import { ThemedView } from "@/components/themed-view";
 import BrainBoxTitle from "@/components/BrainBoxTitle";
 import { ThemedText } from "@/components/themed-text";
 import { useRouter } from "expo-router";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import {
+  SafeAreaView,
+  SafeAreaProvider,
+  SafeAreaInsetsContext,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import BackButton from "@/components/BackButton";
+import CategoriesList from "@/components/Categories/CategoriesList";
 
 const features = [
   {
@@ -38,7 +46,8 @@ const features = [
     darkColor: "#FF375F",
   },
 ];
-const Categorys = [
+const Categories = [
+  { title: "All", icon: "sports-soccer" },
   { title: "Sports", icon: "sports-soccer" },
   { title: "Music", icon: "music-note" },
   { title: "News", icon: "newspaper" },
@@ -56,14 +65,14 @@ const Categorys = [
 const SocialMedia = [
   { title: "Facebook", icon: "facebook" },
   { title: "Instagram", icon: "instagram" },
-  { title: "X (Twitter)", icon: "twitter" }, // الأيقونة الرسمية لا تزال "twitter" في MaterialIcons
+  { title: "X (Twitter)", icon: "twitter" },
   { title: "LinkedIn", icon: "linkedin" },
   { title: "YouTube", icon: "youtube" },
-  { title: "TikTok", icon: "music-note" }, // استخدمت أيقونة بديلة؛ لو عايزة مخصصة، أضيفي مكتبة أخرى
-  { title: "Snapchat", icon: "camera-alt" }, // أيقونة بديلة للكاميرا
-  { title: "Pinterest", icon: "image" }, // أيقونة بديلة للصور
-  { title: "Reddit", icon: "reddit" }, // إذا كانت متوفرة، أو استخدمي "forum"
-  { title: "WhatsApp", icon: "chat-bubble" }, // أيقونة بديلة للدردشة
+  { title: "TikTok", icon: "music-note" },
+  { title: "Snapchat", icon: "camera-alt" },
+  { title: "Pinterest", icon: "image" },
+  { title: "Reddit", icon: "reddit" },
+  { title: "WhatsApp", icon: "chat-bubble" },
 ];
 const SportsSocialMedia = [
   { title: "ESPN", icon: "sports-soccer" },
@@ -81,6 +90,10 @@ const HealthSocialMedia = [
   { title: "Fitness Blender", icon: "fitness-center" },
   { title: "MyFitnessPal", icon: "scale" },
 ];
+console.log(Categories, "Categories");
+console.log(SocialMedia, "SocialMedia");
+console.log(SportsSocialMedia, "SportsSocialMedia");
+console.log(HealthSocialMedia, "HealthSocialMedia");
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -93,87 +106,42 @@ export default function HomeScreen() {
       darkColor="#141718"
       style={styles.container}
     >
-      <ScrollView contentContainerStyle={styles.scroll}>
-        <BrainBoxTitle />
-        <ThemedText
-          lightColor="#222"
-          darkColor="#A0A0A5"
-          style={styles.introText}
+      {" "}
+      <SafeAreaView style={{ flex: 1 }}>
+        <View
+          style={{
+            gap: 69,
+            alignItems: "center",
+            justifyContent: "flex-end",
+            width: "100%",
+            flexDirection: "row-reverse",
+            paddingTop: 49,
+          }}
         >
-          Welcome to BrainBox! {"\n\n"}
-          Your AI assistant ready to help you with answers, advice, and
-          guidance.
-        </ThemedText>
-        <View style={styles.featuresContainer}>
-          {features.map((item, index) => (
-            <ThemedView
-              key={index}
-              lightColor="#F7F7F8"
-              darkColor="#232627"
-              style={styles.featureCard}
-            >
-              <Icon
-                name={item.icon}
-                size={24}
-                color={
-                  colorScheme === "dark" ? item.darkColor : item.lightColor
-                }
-              />
-              <ThemedText
-                lightColor="#222"
-                darkColor="#A0A0A5"
-                style={styles.featureText}
-              >
-                {item.title}
-              </ThemedText>
-            </ThemedView>
-          ))}
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={goToChat}>
-          <Icon name="send" size={20} color="#fff" style={{ marginRight: 8 }} />
-          <ThemedText
-            lightColor="#fff"
-            darkColor="#fff"
-            style={styles.buttonText}
+          <Text
+            style={{ fontSize: 22, fontWeight: "semibold", color: "white" }}
           >
-            Start Chat
-          </ThemedText>
-        </TouchableOpacity>
-      </ScrollView>
+            Ai Assistant
+          </Text>
+          <BackButton />
+        </View>
+        <View
+          style={{
+            gap: 69,
+            alignItems: "center",
+            justifyContent: "flex-end",
+            width: "100%",
+            flexDirection: "row-reverse",
+            paddingTop: 49,
+          }}
+        >
+          <CategoriesList Categories={Categories}/>
+        </View>
+      </SafeAreaView>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 25 },
-  scroll: { paddingVertical: 60, alignItems: "center" },
-  introText: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "center",
-    marginBottom: 30,
-  },
-  featuresContainer: { width: "100%", marginBottom: 40 },
-  featureCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 12,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  featureText: { marginLeft: 12, fontSize: 14, fontWeight: "500" },
-  button: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#007AFF",
-    paddingVertical: 14,
-    paddingHorizontal: 30,
-    borderRadius: 12,
-  },
-  buttonText: { fontSize: 16, fontWeight: "600" },
-  image: {
-    width: 154,
-    height: 184.35,
-  },
 });
