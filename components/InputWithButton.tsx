@@ -5,8 +5,6 @@ import {
   StyleSheet,
   useColorScheme,
   ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useState } from "react";
@@ -33,11 +31,6 @@ export default function InputWithSendIcon() {
   const isDisabled = !message.trim() || loading;
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 10}
-      style={styles.wrapper}
-    >
       <View style={[styles.container, { backgroundColor: bgColor }]}>
         <TextInput
           style={[styles.input, { color: textColor }]}
@@ -48,7 +41,7 @@ export default function InputWithSendIcon() {
           multiline
         />
         <TouchableOpacity
-          style={[styles.button, { opacity: isDisabled ? 0.5 : 1 }]}
+          style={[styles.button, { opacity: isDisabled ? 0.2 : 1 }]}
           onPress={sendMessage}
           disabled={isDisabled}
         >
@@ -59,20 +52,10 @@ export default function InputWithSendIcon() {
           )}
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    backgroundColor: "transparent",
-  },
   container: {
     flexDirection: "row",
     alignItems: "center",
@@ -84,6 +67,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+    marginBottom: 15,
+    backgroundColor:"transparent"
   },
   input: {
     flex: 1,
