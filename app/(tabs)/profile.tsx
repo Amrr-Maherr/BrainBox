@@ -1,100 +1,142 @@
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Image, StyleSheet, useColorScheme } from "react-native";
 import { ThemedView } from "@/components/themed-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedButton } from "@/components/themed-button";
+import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile() {
-  const user = {
-    uid: "rWKP0sYbx0hy10D3SdpNSKVlpuX2",
-    email: "amrm80233@gmail.com",
-    emailVerified: false,
-    providerData: [
-      {
-        providerId: "password",
-        uid: "amrm80233@gmail.com",
-        displayName: null,
-        email: "amrm80233@gmail.com",
-        phoneNumber: null,
-        photoURL: null,
-      },
-    ],
-    createdAt: "1761252672971",
-    lastLoginAt: "1761253568521",
-  };
+  const [user, setUser] = useState<any>(null);
+  const Router = useRouter();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+
+  // Fetch user data from AsyncStorage
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const ProfileData = await AsyncStorage.getItem("userData");
+        if (ProfileData) setUser(JSON.parse(ProfileData));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  if (!user) return null; // or a loader
+
+  const provider = user.providerData[0];
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView
+      style={[
+        styles.container,
+        { backgroundColor: isDark ? "#141414" : "#f9f9f9" },
+      ]}
+    >
+      {/* Avatar and Name */}
       <View style={styles.header}>
         <Image
           source={{
             uri:
-              user.providerData[0].photoURL ??
+              provider.photoURL ??
               "https://cdn-icons-png.flaticon.com/512/149/149071.png",
           }}
           style={styles.avatar}
         />
-        <ThemedText type="title" style={styles.name}>
-          {user.providerData[0].displayName ?? "No Name"}
+        <ThemedText
+          type="title"
+          style={[styles.name, { color: isDark ? "#fff" : "#000" }]}
+        >
+          {provider.displayName ?? "No Name"}
         </ThemedText>
-        <ThemedText style={styles.email}>
+        <ThemedText style={[styles.email, { color: isDark ? "#ccc" : "#555" }]}>
           {user.email ?? "No email available"}
         </ThemedText>
       </View>
 
-      <View style={styles.infoCard}>
-        <ThemedText type="subtitle" style={styles.sectionTitle}>
-          User Data
+      {/* User Info Card */}
+      <View
+        style={[
+          styles.infoCard,
+          {
+            backgroundColor: isDark ? "#1C1C1C" : "#fff",
+            shadowOpacity: isDark ? 0 : 0.1,
+          },
+        ]}
+      >
+        <ThemedText
+          type="subtitle"
+          style={[styles.sectionTitle, { color: isDark ? "#fff" : "#000" }]}
+        >
+          Account Info
         </ThemedText>
-
         <View style={styles.infoRow}>
-          <Text style={styles.label}>UID:</Text>
-          <Text style={styles.value}>{user.uid}</Text>
+          <ThemedText
+            style={[styles.label, { color: isDark ? "#aaa" : "#555" }]}
+          >
+            Email Verified:
+          </ThemedText>
+          <ThemedText
+            style={[styles.value, { color: isDark ? "#fff" : "#222" }]}
+          >
+            {user.emailVerified ? "Yes" : "No"}
+          </ThemedText>
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.label}>Email Verified:</Text>
-          <Text style={styles.value}>{user.emailVerified ? "Yes" : "No"}</Text>
+          <ThemedText
+            style={[styles.label, { color: isDark ? "#aaa" : "#555" }]}
+          >
+            Provider:
+          </ThemedText>
+          <ThemedText
+            style={[styles.value, { color: isDark ? "#fff" : "#222" }]}
+          >
+            {provider.providerId}
+          </ThemedText>
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.label}>Provider:</Text>
-          <Text style={styles.value}>{user.providerData[0].providerId}</Text>
-        </View>
-
-        <View style={styles.infoRow}>
-          <Text style={styles.label}>Created At:</Text>
-          <Text style={styles.value}>
+          <ThemedText
+            style={[styles.label, { color: isDark ? "#aaa" : "#555" }]}
+          >
+            Created At:
+          </ThemedText>
+          <ThemedText
+            style={[styles.value, { color: isDark ? "#fff" : "#222" }]}
+          >
             {new Date(Number(user.createdAt)).toLocaleString()}
-          </Text>
+          </ThemedText>
         </View>
 
         <View style={styles.infoRow}>
-          <Text style={styles.label}>Last Login:</Text>
-          <Text style={styles.value}>
+          <ThemedText
+            style={[styles.label, { color: isDark ? "#aaa" : "#555" }]}
+          >
+            Last Login:
+          </ThemedText>
+          <ThemedText
+            style={[styles.value, { color: isDark ? "#fff" : "#222" }]}
+          >
             {new Date(Number(user.lastLoginAt)).toLocaleString()}
-          </Text>
+          </ThemedText>
         </View>
       </View>
 
+      {/* Buttons */}
       <View style={styles.buttonsContainer}>
         <ThemedButton
           text="Edit Profile"
           style={styles.button}
-          lightColor="#E3E3E3"
-          darkColor="#232627"
-          textLight="#141718"
-          textDark="#fff"
-          onPress={() => console.log("Edit Profile pressed")}
+          onPress={() => Router.push("/EditProfile")}
         />
         <ThemedButton
           text="Settings"
           style={styles.button}
-          lightColor="#E3E3E3"
-          darkColor="#232627"
-          textLight="#141718"
-          textDark="#fff"
-          onPress={() => console.log("Settings pressed")}
+          onPress={() => Router.push("/Settings")}
         />
       </View>
     </ThemedView>
@@ -102,58 +144,30 @@ export default function Profile() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 20,
-  },
-  header: {
-    alignItems: "center",
-    marginTop: 40,
-    marginBottom: 30,
-  },
-  avatar: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    marginBottom: 15,
-  },
-  name: {
-    fontSize: 22,
-    fontWeight: "600",
-  },
-  email: {
-    fontSize: 14,
-    color: "#888",
-  },
+  container: { flex: 1, alignItems: "center", padding: 20 },
+  header: { alignItems: "center", marginTop: 40, marginBottom: 30 },
+  avatar: { width: 110, height: 110, borderRadius: 55, marginBottom: 15 },
+  name: { fontSize: 22, fontWeight: "600" },
+  email: { fontSize: 14 },
   infoCard: {
     width: "100%",
     padding: 20,
     borderRadius: 16,
-    backgroundColor: "rgba(0,0,0,0.05)",
     marginBottom: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 15,
-  },
+  sectionTitle: { fontSize: 18, fontWeight: "600", marginBottom: 15 },
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
   },
-  label: {
-    fontWeight: "500",
-    color: "#555",
-  },
-  value: {
-    color: "#222",
-  },
-  buttonsContainer: {
-    width: "100%",
-    gap: 12,
-  },
+  label: { fontWeight: "500" },
+  value: {},
+  buttonsContainer: { width: "100%", gap: 12 },
   button: {
     width: "100%",
     height: 55,

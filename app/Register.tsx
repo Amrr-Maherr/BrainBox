@@ -19,6 +19,7 @@ import { Ionicons } from "@expo/vector-icons";
 import BackButton from "@/components/BackButton";
 import { useRouter } from "expo-router";
 import { useForm, Controller } from "react-hook-form";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Register() {
   const router = useRouter();
@@ -45,6 +46,14 @@ export default function Register() {
   }) => {
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
+      await AsyncStorage.setItem(
+        "userInfoData",
+        JSON.stringify({
+          email: data.email,
+          password: data.password,
+          fullName: data.fullName,
+        })
+      );
       router.push("/Login");
     } catch (error: any) {
       Alert.alert("Error registering user:", error.message);

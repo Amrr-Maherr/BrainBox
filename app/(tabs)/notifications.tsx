@@ -1,7 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  useColorScheme,
+} from "react-native";
 import { ThemedView } from "@/components/themed-view";
 import { ThemedText } from "@/components/themed-text";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const mockNotifications = [
   {
@@ -21,50 +29,84 @@ const mockNotifications = [
   },
 ];
 
-export default function notifications() {
+export default function Notifications() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === "dark";
+
+  const renderNotification = ({
+    item,
+  }: {
+    item: (typeof mockNotifications)[0];
+  }) => (
+    <View
+      style={[styles.card, { backgroundColor: isDark ? "#2C2C2C" : "#F5F5F5" }]}
+    >
+      <View style={styles.cardContent}>
+        <View style={styles.textContainer}>
+          <Text style={[styles.title, { color: isDark ? "#fff" : "#000" }]}>
+            {item.title}
+          </Text>
+          <Text style={[styles.message, { color: isDark ? "#ccc" : "#555" }]}>
+            {item.message}
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon
+            name="delete-outline"
+            size={24}
+            color={isDark ? "#FF6B6B" : "#FF3B30"}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title" style={styles.header}>
+    <ThemedView
+      style={[
+        styles.container,
+        { backgroundColor: isDark ? "#141414" : "#fff" },
+      ]}
+    >
+      <ThemedText
+        type="title"
+        style={[styles.header, { color: isDark ? "#fff" : "#000" }]}
+      >
         Notifications
       </ThemedText>
 
       <FlatList
         data={mockNotifications}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.message}>{item.message}</Text>
-          </View>
-        )}
+        renderItem={renderNotification}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
       />
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  header: {
-    marginBottom: 20,
-    fontSize: 22,
-    fontWeight: "700",
-  },
+  container: { flex: 1, paddingHorizontal: 20, paddingTop: 60 },
+  header: { fontSize: 24, fontWeight: "700", marginBottom: 20 },
+  listContent: { paddingBottom: 20 },
   card: {
-    backgroundColor: "#1E1E1E20",
-    padding: 15,
-    borderRadius: 12,
+    padding: 16,
+    borderRadius: 14,
     marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
-  title: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 5,
+  cardContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  message: {
-    fontSize: 14,
-    opacity: 0.8,
-  },
+  textContainer: { flex: 1, paddingRight: 10 },
+  title: { fontSize: 16, fontWeight: "600", marginBottom: 6 },
+  message: { fontSize: 14, lineHeight: 20 },
+  iconButton: { padding: 6 },
 });

@@ -50,6 +50,8 @@ export default function Login() {
             "userData",
             JSON.stringify(userCredential.user)
           );
+          console.log(userCredential.user);
+          
         } catch (error) {
           console.error(error);
         }

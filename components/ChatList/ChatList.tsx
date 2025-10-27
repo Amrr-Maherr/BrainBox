@@ -2,8 +2,6 @@ import type { RootState } from "@/ReduxStore/store";
 import React, { useEffect, useRef } from "react";
 import {
   FlatList,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   useColorScheme,
 } from "react-native";
@@ -23,11 +21,6 @@ export default function ChatList() {
   }, [chatState]);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-    >
       <FlatList
         ref={flatListRef}
         data={chatState}
@@ -36,7 +29,6 @@ export default function ChatList() {
         contentContainerStyle={{paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
       />
-    </KeyboardAvoidingView>
   );
 }
 
