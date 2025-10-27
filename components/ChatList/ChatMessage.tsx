@@ -5,9 +5,11 @@ import {
   StyleSheet,
   useColorScheme,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import MessageBubble from "../ChatList/MessageBubble";
 import { Ionicons } from "@expo/vector-icons";
+import * as Clipboard from "expo-clipboard";
 
 interface ChatItem {
   user?: string;
@@ -19,6 +21,11 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const time = item.time || new Date().toLocaleTimeString("en-EG");
+
+  const copyText = async (text: string) => {
+    await Clipboard.setStringAsync(text);
+    Alert.alert("Copied!", "Text has been copied to clipboard.");
+  };
 
   return (
     <View style={styles.messageBlock}>
@@ -55,7 +62,10 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
 
           {/* Interaction Icons: Copy, Like, Dislike, Share */}
           <View style={styles.reactionContainer}>
-            <TouchableOpacity style={styles.reactionButton}>
+            <TouchableOpacity
+              style={styles.reactionButton}
+              onPress={() => copyText(item.bot!)}
+            >
               <Ionicons
                 name="copy-outline"
                 size={20}
