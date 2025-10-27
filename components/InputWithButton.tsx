@@ -31,27 +31,42 @@ export default function InputWithSendIcon() {
   const isDisabled = !message.trim() || loading;
 
   return (
-      <View style={[styles.container, { backgroundColor: bgColor }]}>
-        <TextInput
-          style={[styles.input, { color: textColor }]}
-          placeholder="Type something..."
-          placeholderTextColor={isDark ? "#888" : "#555"}
-          value={message}
-          onChangeText={setMessage}
-          multiline
-        />
-        <TouchableOpacity
-          style={[styles.button, { opacity: isDisabled ? 0.2 : 1 }]}
-          onPress={sendMessage}
-          disabled={isDisabled}
-        >
-          {loading ? (
-            <ActivityIndicator size="small" color="#fff" />
-          ) : (
-            <Icon name="send" size={24} color="#fff" />
-          )}
-        </TouchableOpacity>
-      </View>
+    <View style={[styles.container, { backgroundColor: bgColor }]}>
+      {/* Microphone icon on the left */}
+      <TouchableOpacity
+        style={[styles.voiceButton, styles.buttonShadow]}
+        onPress={() => console.log("Voice pressed")}
+      >
+        <Icon name="mic" size={24} color="#0A84FF" />
+      </TouchableOpacity>
+
+      {/* Text input */}
+      <TextInput
+        style={[styles.input, { color: textColor }]}
+        placeholder="Type something..."
+        placeholderTextColor={isDark ? "#888" : "#555"}
+        value={message}
+        onChangeText={setMessage}
+        multiline
+      />
+
+      {/* Send button on the right */}
+      <TouchableOpacity
+        style={[
+          styles.sendButton,
+          styles.buttonShadow,
+          { opacity: isDisabled ? 0.2 : 1 },
+        ]}
+        onPress={sendMessage}
+        disabled={isDisabled}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color="#fff" />
+        ) : (
+          <Icon name="send" size={24} color="#fff" />
+        )}
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -61,14 +76,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 25,
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 12,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
     marginBottom: 15,
-    backgroundColor:"transparent"
   },
   input: {
     flex: 1,
@@ -78,12 +92,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
-  button: {
+  voiceButton: {
+    marginRight: 8,
+    padding: 10,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#E0E0E0",
+  },
+  sendButton: {
     marginLeft: 8,
     padding: 10,
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#0A84FF",
+  },
+  buttonShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
   },
 });
