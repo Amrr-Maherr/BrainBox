@@ -1,6 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, useColorScheme } from "react-native";
-import MessageBubble from "../ChatList/MessageBubble";;
+import {
+  View,
+  Text,
+  StyleSheet,
+  useColorScheme,
+  TouchableOpacity,
+} from "react-native";
+import MessageBubble from "../ChatList/MessageBubble";
+import { Ionicons } from "@expo/vector-icons";
 
 interface ChatItem {
   user?: string;
@@ -45,6 +52,38 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
           >
             Bot • {time}
           </Text>
+
+          {/* Interaction Icons: Copy, Like, Dislike, Share */}
+          <View style={styles.reactionContainer}>
+            <TouchableOpacity style={styles.reactionButton}>
+              <Ionicons
+                name="copy-outline"
+                size={20}
+                color={isDark ? "#fff" : "#000"}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.reactionButton}>
+              <Ionicons
+                name="thumbs-up-outline"
+                size={20}
+                color={isDark ? "#fff" : "#000"}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.reactionButton}>
+              <Ionicons
+                name="thumbs-down-outline"
+                size={20}
+                color={isDark ? "#fff" : "#000"}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.reactionButton}>
+              <Ionicons
+                name="share-outline"
+                size={20}
+                color={isDark ? "#fff" : "#000"}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       )}
     </View>
@@ -61,5 +100,15 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 11,
     marginTop: 4,
+  },
+  reactionContainer: {
+    flexDirection: "row",
+    marginTop: 6,
+    gap: 12,
+  },
+  reactionButton: {
+    padding: 6,
+    borderRadius: 12,
+    backgroundColor: "transparent",
   },
 });
