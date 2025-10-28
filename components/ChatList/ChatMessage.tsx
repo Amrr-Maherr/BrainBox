@@ -57,7 +57,7 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
           <Text
             style={[styles.timeText, { color: isDark ? "#8E8E93" : "#666" }]}
           >
-            Bot • {time}
+            BrainBox • {time}
           </Text>
 
           {/* Interaction Icons: Copy, Like, Dislike, Share */}

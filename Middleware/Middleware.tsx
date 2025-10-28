@@ -1,0 +1,27 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import { useEffect } from "react";
+import { View } from "react-native";
+
+export default function Middleware({ children }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const token = await AsyncStorage.getItem("userData");
+        if (token) {
+          router.push("/Main");
+        } else {
+          router.push("//On-Boarding-1");
+        }
+      } catch (error) {
+        console.error("Error checking auth:", error);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  return <View>{children}</View>;
+}
