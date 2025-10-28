@@ -21,7 +21,7 @@ export default function Authentication_gate({ children }) {
     };
 
     checkAuth();
-  }, []);
+  }, [router]);
 
   return <View>{children}</View>;
 }
