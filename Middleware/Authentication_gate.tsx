@@ -3,7 +3,7 @@ import { useRouter } from "expo-router";
 import { useEffect } from "react";
 import { View } from "react-native";
 
-export default function Middleware({ children }) {
+export default function Authentication_gate({ children }) {
   const router = useRouter();
 
   useEffect(() => {

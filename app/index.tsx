@@ -1,11 +1,11 @@
 import { StyleSheet } from "react-native";
 import { ThemedView } from "@/components/themed-view";
 import { ThemedText } from "@/components/themed-text";
-import Middleware from "@/Middleware/Middleware";
+import Authentication_gate from "@/Middleware/Authentication_gate";
 
 export default function WelcomeScreen() {
   return (
-    <Middleware>
+    <Authentication_gate>
       <ThemedView
         style={styles.container}
         lightColor="#F7F8FA"
@@ -22,7 +22,7 @@ export default function WelcomeScreen() {
           Version 1.0
         </ThemedText>
       </ThemedView>
-    </Middleware>
+    </Authentication_gate>
   );
 }
 
