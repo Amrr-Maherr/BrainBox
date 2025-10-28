@@ -1,37 +1,43 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  useColorScheme,
-  TouchableOpacity,
-  Alert,
-  Share,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import MessageBubble from "../ChatList/MessageBubble";
-import { Ionicons } from "@expo/vector-icons";
-import * as Clipboard from "expo-clipboard";
 import ChatActions from "./ChatActions";
+
 interface ChatItem {
   user?: string;
   bot?: string;
   time?: string;
 }
 
-export default function ChatMessage({ item }: { item: ChatItem }) {
+export default function ChatMessage({
+  item,
+  isLastMessage,
+}: {
+  item: ChatItem;
+  isLastMessage?: boolean;
+}) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const time = item.time || new Date().toLocaleTimeString("en-EG");
 
-  const copyText = async (text: string) => {
-    await Clipboard.setStringAsync(text);
-    Alert.alert("Copied!", "Text has been copied to clipboard.");
-  };
-  const shareOptions = {
-    title: "BrainBox Chat",
-    message: "Check out my chat on BrainBox!",
-    url: "https://brainbox.app",
-  };
+  const [displayedText, setDisplayedText] = useState(
+    isLastMessage ? "" : item.bot || ""
+  );
+
+useEffect(() => {
+  if (!isLastMessage || !item.bot || displayedText === item.bot) return;
+  let i = 0;
+  setDisplayedText("");
+  const interval = setInterval(() => {
+    setDisplayedText(item.bot?.slice(0, i + 1));
+    i++;
+    if (i === item.bot.length) clearInterval(interval);
+  }, 30);
+
+  return () => clearInterval(interval);
+}, [item.bot, isLastMessage]);
+
+
   return (
     <View style={styles.messageBlock}>
       {item.user && (
@@ -54,7 +60,7 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
       {item.bot && (
         <View style={[styles.messageWrapper, { alignItems: "flex-start" }]}>
           <MessageBubble
-            text={item.bot}
+            text={displayedText}
             isDark={isDark}
             backgroundColor={isDark ? "#2C2C2E" : "#ECECEC"}
             textColor={isDark ? "#EAEAEA" : "#1C1C1E"}
@@ -65,7 +71,6 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
             BrainBox • {time}
           </Text>
 
-          {/* Interaction Icons: Copy, Like, Dislike, Share */}
           <ChatActions message={item.bot!} isDark={isDark} />
         </View>
       )}
@@ -83,15 +88,5 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 11,
     marginTop: 4,
-  },
-  reactionContainer: {
-    flexDirection: "row",
-    marginTop: 6,
-    gap: 12,
-  },
-  reactionButton: {
-    padding: 6,
-    borderRadius: 12,
-    backgroundColor: "transparent",
   },
 });

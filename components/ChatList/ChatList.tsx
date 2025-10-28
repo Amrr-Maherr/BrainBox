@@ -1,10 +1,6 @@
 import type { RootState } from "@/ReduxStore/store";
 import React, { useEffect, useRef } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  useColorScheme,
-} from "react-native";
+import { FlatList, StyleSheet, useColorScheme } from "react-native";
 import { useSelector } from "react-redux";
 import ChatMessage from "./ChatMessage";
 
@@ -21,14 +17,19 @@ export default function ChatList() {
   }, [chatState]);
 
   return (
-      <FlatList
-        ref={flatListRef}
-        data={chatState}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item }) => <ChatMessage item={item} />}
-        contentContainerStyle={{paddingBottom: 20 }}
-        showsVerticalScrollIndicator={false}
-      />
+    <FlatList
+      ref={flatListRef}
+      data={chatState}
+      keyExtractor={(_, index) => index.toString()}
+      renderItem={({ item, index }) => (
+        <ChatMessage
+          item={item}
+          isLastMessage={index === chatState.length - 1}
+        />
+      )}
+      contentContainerStyle={{ paddingBottom: 20 }}
+      showsVerticalScrollIndicator={false}
+    />
   );
 }
 
