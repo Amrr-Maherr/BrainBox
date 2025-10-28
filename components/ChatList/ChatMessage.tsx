@@ -11,6 +11,7 @@ import {
 import MessageBubble from "../ChatList/MessageBubble";
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
+import ChatActions from "./ChatActions";
 interface ChatItem {
   user?: string;
   bot?: string;
@@ -65,41 +66,7 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
           </Text>
 
           {/* Interaction Icons: Copy, Like, Dislike, Share */}
-          <View style={styles.reactionContainer}>
-            <TouchableOpacity
-              style={styles.reactionButton}
-              onPress={() => copyText(item.bot!)}
-            >
-              <Ionicons
-                name="copy-outline"
-                size={20}
-                color={isDark ? "#fff" : "#000"}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.reactionButton}>
-              <Ionicons
-                name="thumbs-up-outline"
-                size={20}
-                color={isDark ? "#fff" : "#000"}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.reactionButton}>
-              <Ionicons
-                name="thumbs-down-outline"
-                size={20}
-                color={isDark ? "#fff" : "#000"}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.reactionButton} onPress={()=>{ Share.share({
-              message: item.bot || "Check out this message from BrainBox 🤖",
-            });}}>
-              <Ionicons
-                name="share-outline"
-                size={20}
-                color={isDark ? "#fff" : "#000"}
-              />
-            </TouchableOpacity>
-          </View>
+          <ChatActions message={item.bot!} isDark={isDark} />
         </View>
       )}
     </View>
