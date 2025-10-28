@@ -1,12 +1,29 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import { ThemedButton } from "@/components/themed-button";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function SettingsUI() {
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      await AsyncStorage.clear();
+      Alert.alert("Logged out", "You have been logged out successfully.");
+      router.replace("/Login"); 
+    } catch (error) {
+      console.error("Logout Error:", error);
+      Alert.alert("Error", "Failed to log out. Please try again.");
+    }
+  };
 
   return (
     <ThemedView
@@ -90,7 +107,7 @@ export default function SettingsUI() {
             darkColor="#e53935"
             textLight="#141718"
             textDark="#fff"
-            onPress={() => {}}
+            onPress={handleLogout}
           />
         </View>
       </ScrollView>

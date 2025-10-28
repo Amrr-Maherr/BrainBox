@@ -35,7 +35,7 @@ useEffect(() => {
   }, 30);
 
   return () => clearInterval(interval);
-}, [item.bot, isLastMessage]);
+}, [item.bot, isLastMessage,displayedText]);
 
 
   return (

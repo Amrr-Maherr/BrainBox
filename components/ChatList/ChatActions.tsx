@@ -3,8 +3,8 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  useColorScheme,
   Share,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
@@ -20,7 +20,7 @@ export default function ChatActions({ message, isDark }: ChatActionsProps) {
 
   const copyText = async () => {
     await Clipboard.setStringAsync(message);
-    console.log("Copied to clipboard:", message);
+    Alert.alert("Copied to clipboard:", message);
   };
 
   const shareMessage = async () => {
