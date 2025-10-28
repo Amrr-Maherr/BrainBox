@@ -1,50 +1,86 @@
-# Welcome to your Expo app 👋
+# 🧠 BrainBox
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**BrainBox** is an AI-powered chat application built with **React Native (Expo)**, integrating **Firebase Authentication** and **Redux Toolkit** for state management.  
+It provides an intuitive chat experience with AI responses, categorized suggestions, and personalized user profiles.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Features
 
-   ```bash
-   npm install
-   ```
+- 🤖 **AI Chat System** — Interact with an intelligent assistant that provides instant answers.  
+- 💬 **Dynamic Chat Interface** — Messages display with typing animation for a natural chat feel.  
+- 🔐 **Firebase Authentication** — Secure user sign-up, login, and logout.  
+- 👤 **Profile Management** — View and edit your profile information.  
+- ⚙️ **Settings Page** — Manage dark mode, notifications, and account preferences.  
+- 🧩 **Redux Store Integration** — Centralized state management for chat and user data.  
+- 🎨 **Themed UI Components** — Adaptive light/dark mode with custom ThemedView, ThemedText, and ThemedButton.  
+- 📱 **Onboarding Flow** — Smooth introduction screens for new users.  
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🛠️ Tech Stack
 
-In the output, you'll find options to open the app in a
+- **React Native (Expo)**
+- **TypeScript**
+- **Firebase Authentication**
+- **Redux Toolkit**
+- **AsyncStorage**
+- **React Navigation**
+- **Expo Router**
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 📂 Project Structure
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+📁 BrainBox
+├── app/                  → Screens & navigation
+├── components/           → Reusable UI components
+├── ReduxStore/           → Redux slice and store setup
+├── Middleware/           → Authentication guard
+├── Providers/            → App-level providers
+├── hooks/                → Custom hooks for theme and utilities
+├── assets/               → Images and app icons
+└── constants/            → Theme constants and global styles
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## ⚙️ Setup & Installation
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+# Clone the repository
+git clone https://github.com/your-username/BrainBox.git
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# Navigate to project
+cd BrainBox
 
-## Join the community
+# Install dependencies
+npm install
 
-Join our community of developers creating universal apps.
+# Start the app
+npx expo start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 🔑 Firebase Setup
+
+1. Create a Firebase project at [https://console.firebase.google.com](https://console.firebase.google.com)  
+2. Enable **Email/Password** authentication  
+3. Add your Firebase configuration to `firebaseConfig.js`  
+
+---
+
+## 🧩 Future Enhancements
+- 🪄 Smart prompt suggestions  
+
+---
+
+## 👨‍💻 Author
+
+**Amr Maher Ali**  
+Frontend Developer | React & React Native  
+- 📧 Email: [amrr.maherr24@gmail.com](mailto:amrr.maherr24@gmail.com)  
+- 🌐 Portfolio: [https://amrr-maherr.github.io](https://amrr-maherr.github.io)  
+- 💼 LinkedIn: [https://www.linkedin.com/in/Amrr-Maherr](https://www.linkedin.com/in/Amrr-Maherr)
