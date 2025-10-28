@@ -6,11 +6,11 @@ import {
   useColorScheme,
   TouchableOpacity,
   Alert,
+  Share,
 } from "react-native";
 import MessageBubble from "../ChatList/MessageBubble";
 import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
-
 interface ChatItem {
   user?: string;
   bot?: string;
@@ -26,7 +26,11 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
     await Clipboard.setStringAsync(text);
     Alert.alert("Copied!", "Text has been copied to clipboard.");
   };
-
+  const shareOptions = {
+    title: "BrainBox Chat",
+    message: "Check out my chat on BrainBox!",
+    url: "https://brainbox.app",
+  };
   return (
     <View style={styles.messageBlock}>
       {item.user && (
@@ -86,7 +90,9 @@ export default function ChatMessage({ item }: { item: ChatItem }) {
                 color={isDark ? "#fff" : "#000"}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.reactionButton}>
+            <TouchableOpacity style={styles.reactionButton} onPress={()=>{ Share.share({
+              message: item.bot || "Check out this message from BrainBox 🤖",
+            });}}>
               <Ionicons
                 name="share-outline"
                 size={20}
