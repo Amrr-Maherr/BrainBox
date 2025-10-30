@@ -67,34 +67,7 @@ export default function TabLayout() {
           ),
         }}
       />
-
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ color, focused }) => (
-            <View style={{ alignItems: "center" }}>
-              <Ionicons
-                name={focused ? "search" : "search-outline"}
-                size={26}
-                color={color}
-              />
-              {focused && (
-                <View
-                  style={{
-                    position: "absolute",
-                    bottom: -13,
-                    width: 7.21,
-                    height: 7.21,
-                    borderRadius: 3,
-                    backgroundColor: color,
-                  }}
-                />
-              )}
-            </View>
-          ),
-        }}
-      />
+      
       <Tabs.Screen
         name="notifications"
         options={{

@@ -33,7 +33,7 @@ export default function RootLayout() {
                 contentStyle: {
                   backgroundColor: background,
                 },
-                animation: "fade",
+                animation: "slide_from_right",
               }}
               initialRouteName="index"
             >
