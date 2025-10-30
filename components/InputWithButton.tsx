@@ -32,14 +32,6 @@ export default function InputWithSendIcon() {
 
   return (
     <View style={[styles.container, { backgroundColor: bgColor }]}>
-      {/* Microphone icon on the left */}
-      <TouchableOpacity
-        style={[styles.voiceButton, styles.buttonShadow]}
-        onPress={() => console.log("Voice pressed")}
-      >
-        <Icon name="mic" size={24} color="#0A84FF" />
-      </TouchableOpacity>
-
       {/* Text input */}
       <TextInput
         style={[styles.input, { color: textColor }]}

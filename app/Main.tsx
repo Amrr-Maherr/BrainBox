@@ -79,7 +79,7 @@ export default function Main() {
         <View style={styles.header}>
           <BackButton />
           <View style={styles.iconGroup}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               disabled={chat.length === 0}
               onPress={handleSaveChat}
               style={[
@@ -88,7 +88,7 @@ export default function Main() {
               ]}
             >
               <Icon name="bookmark-outline" size={26} color="#007AFF" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <TouchableOpacity
               disabled={chat.length === 0}
