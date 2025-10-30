@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import MessageBubble from "../ChatList/MessageBubble";
 import ChatActions from "./ChatActions";
@@ -9,34 +9,10 @@ interface ChatItem {
   time?: string;
 }
 
-export default function ChatMessage({
-  item,
-  isLastMessage,
-}: {
-  item: ChatItem;
-  isLastMessage?: boolean;
-}) {
+export default function ChatMessage({ item }: { item: ChatItem }) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const time = item.time || new Date().toLocaleTimeString("en-EG");
-
-  const [displayedText, setDisplayedText] = useState(
-    isLastMessage ? "" : item.bot || ""
-  );
-
-useEffect(() => {
-  if (!isLastMessage || !item.bot || displayedText === item.bot) return;
-  let i = 0;
-  setDisplayedText("");
-  const interval = setInterval(() => {
-    setDisplayedText(item.bot?.slice(0, i + 1));
-    i++;
-    if (i === item.bot.length) clearInterval(interval);
-  }, 30);
-
-  return () => clearInterval(interval);
-}, [item.bot, isLastMessage,displayedText]);
-
 
   return (
     <View style={styles.messageBlock}>
@@ -60,7 +36,7 @@ useEffect(() => {
       {item.bot && (
         <View style={[styles.messageWrapper, { alignItems: "flex-start" }]}>
           <MessageBubble
-            text={displayedText}
+            text={item.bot}
             isDark={isDark}
             backgroundColor={isDark ? "#2C2C2E" : "#ECECEC"}
             textColor={isDark ? "#EAEAEA" : "#1C1C1E"}

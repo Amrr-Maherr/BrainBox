@@ -24,7 +24,6 @@ export default function ChatList() {
       renderItem={({ item, index }) => (
         <ChatMessage
           item={item}
-          isLastMessage={index === chatState.length - 1}
         />
       )}
       contentContainerStyle={{ paddingBottom: 20 }}
