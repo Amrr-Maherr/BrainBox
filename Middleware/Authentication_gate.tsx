@@ -11,9 +11,9 @@ export default function Authentication_gate({ children }) {
       try {
         const token = await AsyncStorage.getItem("userData");
         if (token) {
-          router.push("/(tabs)");
+          router.replace("/(tabs)");
         } else {
-          router.push("/On-Boarding-1");
+          router.replace("/On-Boarding-1");
         }
       } catch (error) {
         console.error("Error checking auth:", error);

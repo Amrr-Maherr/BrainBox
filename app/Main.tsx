@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { clearChat } from "@/ReduxStore/ChatSlice";
+import { clearChat, saveChatToLocalStorage } from "../ReduxStore/chatStorageSlice";
 
 interface AiItem {
   title: string;
@@ -62,7 +62,13 @@ export default function Main() {
   };
 
   const handleSaveChat = () => {
-    Alert.alert("Save Chat", "This feature will be available soon!");
+    try {
+      dispatch(saveChatToLocalStorage());
+      Alert.alert("Success", "Chat saved successfully!");
+    } catch (error) {
+      Alert.alert("Error", "Failed to save chat.");
+      console.error("Save chat error:", error);
+    }
   };
 
   return (
@@ -79,7 +85,8 @@ export default function Main() {
         <View style={styles.header}>
           <BackButton />
           <View style={styles.iconGroup}>
-            {/* <TouchableOpacity
+            {/* حفظ الشات */}
+            <TouchableOpacity
               disabled={chat.length === 0}
               onPress={handleSaveChat}
               style={[
@@ -88,8 +95,9 @@ export default function Main() {
               ]}
             >
               <Icon name="bookmark-outline" size={26} color="#007AFF" />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
+            {/* مسح الشات */}
             <TouchableOpacity
               disabled={chat.length === 0}
               onPress={handleClearChat}
