@@ -99,11 +99,13 @@ export default function HomeScreen() {
               fontSize: 22,
               fontWeight: "600",
               color: colors === "dark" ? "#FFFFFF" : "#000000",
+              textAlign: "center",
+              width:"100%"
             }}
           >
             Ai Assistant
           </Text>
-          <BackButton />
+          {/* <BackButton /> */}
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
           <View
