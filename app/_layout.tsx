@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import Provider from '@/providers/Provider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -46,16 +47,18 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack initialRouteName="(tabs)" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-        <Stack.Screen name="Splash" />
-        <Stack.Screen name="SplashV2" />
-        <Stack.Screen name="OnBoarding" />
-        <Stack.Screen name="Welcome" />
-        <Stack.Screen name="Login" />
-        <Stack.Screen name="Register" />
-      </Stack>
+      <Provider>
+        <Stack initialRouteName="(tabs)" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+          <Stack.Screen name="Splash" />
+          <Stack.Screen name="SplashV2" />
+          <Stack.Screen name="OnBoarding" />
+          <Stack.Screen name="Welcome" />
+          <Stack.Screen name="Login" />
+          <Stack.Screen name="Register" />
+        </Stack>
+      </Provider>
     </ThemeProvider>
   );
 }
