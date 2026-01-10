@@ -10,7 +10,7 @@ interface ChatHeaderProps {
 
 export default function ChatHeader({ title, onSearchPress }: ChatHeaderProps) {
   return (
-    <View style={styles.header} lightColor="#F7F8FA" darkColor="#141718">
+    <View style={styles.header} lightColor="#141718" darkColor="#F7F8FA">
       <Text style={styles.headerTitle}>{title}</Text>
       <TouchableOpacity onPress={onSearchPress}>
         <Ionicons name="search" size={24} color="#888" />
@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 15,
-    backgroundColor: '#f8f9fa',
-    borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
+    // backgroundColor: '#f8f9fa',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#e9ecef',
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#000',
+    // color: '#000',
   },
 });

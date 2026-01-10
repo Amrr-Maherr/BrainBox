@@ -47,21 +47,26 @@ export default function ChatScreen() {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
     >
-      <ChatHeader title="Chat" onSearchPress={() => console.log('Search pressed')} />
-      <FlatList
-        data={conversations}
-        renderItem={({ item }) => <ConversationItem item={item} />}
-        keyExtractor={(item) => item.id}
-        style={styles.conversationList}
-      />
-      <MessageInput
-        value={message}
-        onChangeText={setMessage}
-        onSendPress={sendMessage}
-      />
+      <View style={styles.container} lightColor="#F7F8FA" darkColor="#141718">
+        <ChatHeader
+          title="Chat"
+          onSearchPress={() => console.log("Search pressed")}
+        />
+        <FlatList
+          data={conversations}
+          renderItem={({ item }) => <ConversationItem item={item} />}
+          keyExtractor={(item) => item.id}
+          style={styles.conversationList}
+        />
+        <MessageInput
+          value={message}
+          onChangeText={setMessage}
+          onSendPress={sendMessage}
+        />
+      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -69,7 +74,7 @@ export default function ChatScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   conversationList: {
     flex: 1,

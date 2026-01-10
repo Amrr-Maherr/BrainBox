@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, TextInput } from 'react-native';
-import { View } from '@/components/Themed';
+import { StyleSheet, TouchableOpacity} from 'react-native';
+import { View, TextInput } from "@/components/Themed";
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/components/useColorScheme';
 
@@ -19,8 +19,14 @@ export default function MessageInput({
 }: MessageInputProps) {
   const ColorScheme = useColorScheme();
   return (
-    <View style={styles.inputContainer} lightColor="#F7F8FA" darkColor="#141718">
+    <View
+      style={styles.inputContainer}
+      lightColor="#F7F8FA"
+      darkColor="#141718"
+    >
       <TextInput
+        lightColor="#fff"
+        darkColor="#676767"
         style={styles.textInput}
         placeholder={placeholder}
         value={value}
@@ -43,14 +49,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: '#f8f9fa',
-    borderTopWidth: 1,
-    borderTopColor: '#e9ecef',
+    // borderTopWidth: 1,
+    // borderTopColor: '#e9ecef',
   },
   textInput: {
     flex: 1,
     height: 40,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderRadius: 20,
     paddingHorizontal: 15,
     marginRight: 10,

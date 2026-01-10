@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Text, View } from '@/components/Themed';
+import { useColorScheme } from '@/components/useColorScheme';
 
 interface ConversationItemProps {
   item: {
@@ -15,20 +16,47 @@ interface ConversationItemProps {
 }
 
 export default function ConversationItem({ item, onPress }: ConversationItemProps) {
+  const ColorScheme = useColorScheme();
+  const logoSource = ColorScheme === 'dark' ? require('../assets/images/LightLogo.png') : require('../assets/images/BlackLogo.png');
   return (
     <TouchableOpacity style={styles.conversationItem} onPress={onPress}>
-      <Image source={{ uri: item.avatar }} style={styles.avatar} />
-      <View style={styles.conversationContent} lightColor="#F7F8FA" darkColor="#141718">
-        <View style={styles.conversationHeader}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.time}>{item.time}</Text>
+      <Image source={logoSource} style={styles.avatar} />
+      <View
+        style={styles.conversationContent}
+        lightColor="#F7F8FA"
+        darkColor="#141718"
+      >
+        <View
+          lightColor="#F7F8FA"
+          darkColor="#141718"
+          style={styles.conversationHeader}
+        >
+          <Text lightColor="#141718" darkColor="#F7F8FA" style={styles.name}>
+            {item.name}
+          </Text>
+          <Text lightColor="#141718" darkColor="#F7F8FA" style={styles.time}>
+            {item.time}
+          </Text>
         </View>
-        <View style={styles.messageContainer}>
-          <Text style={styles.lastMessage} numberOfLines={1}>
+        <View
+          lightColor="#F7F8FA"
+          darkColor="#141718"
+          style={styles.messageContainer}
+        >
+          <Text
+            lightColor="#141718"
+            darkColor="#F7F8FA"
+            style={styles.lastMessage}
+            numberOfLines={1}
+          >
             {item.lastMessage}
           </Text>
           {item.unreadCount > 0 && (
-            <View style={styles.unreadBadge}>
+            <View
+              lightColor="#F7F8FA"
+              darkColor="#141718"
+              style={styles.unreadBadge}
+            >
               <Text style={styles.unreadText}>{item.unreadCount}</Text>
             </View>
           )}
@@ -43,9 +71,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#e9ecef',
     alignItems: 'center',
+    width:"100%"
   },
   avatar: {
     width: 50,
@@ -65,11 +94,11 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
+    // color: '#000',
   },
   time: {
     fontSize: 12,
-    color: '#888',
+    // color: '#888',
   },
   messageContainer: {
     flexDirection: 'row',
@@ -78,7 +107,7 @@ const styles = StyleSheet.create({
   },
   lastMessage: {
     fontSize: 14,
-    color: '#666',
+    // color: '#666',
     flex: 1,
   },
   unreadBadge: {
