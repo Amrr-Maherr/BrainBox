@@ -46,16 +46,13 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack
-        initialRouteName="OnBoardingOne"
-        screenOptions={{ headerShown: false }}
-      >
+      <Stack initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         <Stack.Screen name="Splash" />
         <Stack.Screen name="SplashV2" />
-        <Stack.Screen name="OnBoardingOne" />
-        <Stack.Screen name="OnBoardingTwo" />
+        <Stack.Screen name="OnBoarding" />
+        <Stack.Screen name="Welcome" />
       </Stack>
     </ThemeProvider>
   );
