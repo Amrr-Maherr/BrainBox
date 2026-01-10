@@ -2,38 +2,41 @@ import { Text, View } from "@/components/Themed";
 import { Image, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from "expo-router";
+import { useColorScheme } from "@/components/useColorScheme";
 
 export default function ForgetPassword() {
   const router = useRouter();
+  const ColorScheme = useColorScheme();
   return (
     <>
-      <View style={Styles.container}>
-        {/* <View style={Styles.image_container}>
-          <Image
-            style={Styles.image}
-            source={require("../assets/images/LightLogo.png")}
-          />
-        </View> */}
-        <View>
+      <View style={Styles.container} lightColor="#F7F8FA" darkColor="#141718">
+        <View lightColor="#F7F8FA" darkColor="#141718">
           <Text style={Styles.title}>Reset Your Password</Text>
         </View>
-        <View style={Styles.input_container}>
-          <View style={Styles.input_wrapper}>
+        <View style={Styles.input_container} lightColor="#F7F8FA" darkColor="#141718">
+          <View
+            style={Styles.input_wrapper}
+            lightColor="#fff"
+            darkColor="#232627"
+          >
             <Ionicons name="mail-outline" size={20} color="#888" style={Styles.icon} />
             <TextInput
               style={Styles.input_with_icon}
               placeholder="Email"
               keyboardType="email-address"
               autoCapitalize="none"
+              placeholderTextColor={`${
+                ColorScheme === "dark" ? "#C2C3CB" : "#ACADB9"
+              }`}
             />
           </View>
         </View>
-        <View style={Styles.auth_Buttons_warper}>
-          <TouchableOpacity style={Styles.auth_buttons}>
+        <View style={Styles.auth_Buttons_warper} lightColor="#F7F8FA" darkColor="#141718">
+          <TouchableOpacity style={Styles.auth_buttons} onPress={() => router.push('/EnterCode')}>
             <Text style={Styles.auth_button_text}>Send Reset Link</Text>
           </TouchableOpacity>
         </View>
-        <View style={Styles.back_link_container}>
+        <View style={Styles.back_link_container} lightColor="#F7F8FA" darkColor="#141718">
           <TouchableOpacity onPress={() => router.back()}>
             <Text style={Styles.back_link_text}>Back to <Text style={Styles.back_link_bold}>Log in</Text></Text>
           </TouchableOpacity>
@@ -63,38 +66,36 @@ const Styles = StyleSheet.create({
     fontWeight: "400",
     lineHeight: 64,
     marginTop: 29.65,
-    marginBottom: 63,
+    marginBottom: 50,
     textAlign: "center",
   },
   input_container: {
     width: "100%",
-    marginBottom: 42.36,
+    marginBottom: 25.48,
   },
   input: {
     width: "100%",
     height: 65.52,
     borderRadius: 12.84,
-    backgroundColor: "#f0f0f0",
     paddingHorizontal: 20,
-    marginBottom: 22.91,
+    marginBottom: 19,
     fontSize: 16,
   },
   auth_buttons: {
     width: "100%",
     height: 65.52,
     borderRadius: 14,
-    backgroundColor: "red",
+    // backgroundColor: "red",
     alignItems: "center",
     justifyContent: "center",
   },
   auth_button_text: {
     fontSize: 17.18,
     fontWeight: "bold",
-    color: "#fff",
+    // color: "#fff",
   },
   auth_Buttons_warper: {
     width: "100%",
-
     alignItems: "center",
     justifyContent: "center",
     gap: 22.91,
@@ -107,12 +108,12 @@ const Styles = StyleSheet.create({
   },
   back_link_text: {
     fontSize: 16,
-    color: "#ACADB9",
+    // color: "#ACADB9",
     textAlign: "center",
   },
   back_link_bold: {
     fontWeight: "bold",
-    color: "#000",
+    // color: "#000",
   },
   input_wrapper: {
     flexDirection: 'row',
@@ -120,7 +121,7 @@ const Styles = StyleSheet.create({
     width: "100%",
     height: 65.52,
     borderRadius: 12.84,
-    backgroundColor: "#f0f0f0",
+    // backgroundColor: "#f0f0f0",
     marginBottom: 22.91,
     paddingHorizontal: 20,
   },
