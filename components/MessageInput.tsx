@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity} from 'react-native';
+import { StyleSheet, TouchableOpacity,ActivityIndicator} from 'react-native';
 import { View, TextInput } from "@/components/Themed";
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/components/useColorScheme';
@@ -9,6 +9,7 @@ interface MessageInputProps {
   onChangeText: (text: string) => void;
   onSendPress: () => void;
   placeholder?: string;
+  isLoading?: boolean;
 }
 
 export default function MessageInput({
@@ -16,6 +17,7 @@ export default function MessageInput({
   onChangeText,
   onSendPress,
   placeholder = "Type a message...",
+  isLoading
 }: MessageInputProps) {
   const ColorScheme = useColorScheme();
   return (
@@ -36,8 +38,12 @@ export default function MessageInput({
           ColorScheme === "dark" ? "#C2C3CB" : "#ACADB9"
         }`}
       />
-      <TouchableOpacity style={styles.sendButton} onPress={onSendPress}>
-        <Ionicons name="send" size={24} color="#fff" />
+      <TouchableOpacity style={styles.sendButton} onPress={onSendPress} disabled={isLoading ? true : false}>
+        {isLoading ? (
+          <ActivityIndicator size={20} color={"#fff"}/>
+        ) : (
+          <Ionicons name="send" size={24} color="#fff" />
+        )}
       </TouchableOpacity>
     </View>
   );

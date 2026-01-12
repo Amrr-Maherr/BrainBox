@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import { View } from '@/components/Themed';
 import ChatHeader from '@/components/ChatHeader';
 import MessageInput from '@/components/MessageInput';
+import ChatList, { ChatListRef } from '@/components/ChatList';
 import useFetchChat from '@/hooks/useFetchChat';
 
 type Message = {
   text: string;
   sender: 'user' | 'ai';
+  timestamp: Date;
 };
 
 export default function ChatScreen() {
@@ -15,11 +17,13 @@ export default function ChatScreen() {
   const [messageToSend, setMessageToSend] = useState('');
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
 
+  const chatListRef = useRef<ChatListRef>(null);
+
   const { data, isLoading, isError } = useFetchChat(messageToSend);
 
   const sendMessage = () => {
     if (message.trim()) {
-      setChatMessages(prev => [...prev, { text: message, sender: 'user' }]);
+      setChatMessages(prev => [...prev, { text: message, sender: 'user', timestamp: new Date() }]);
       setMessageToSend(message);
       setMessage('');
     }
@@ -27,9 +31,14 @@ export default function ChatScreen() {
 
   // Handle response when received
   useEffect(() => {
-    if (data && data.candidates && data.candidates[0]) {
-      const aiResponse = data.candidates[0].content.parts[0].text;
-      setChatMessages(prev => [...prev, { text: aiResponse, sender: 'ai' }]);
+    if (data) {
+      if ('error' in data) {
+        // Handle error
+        setChatMessages(prev => [...prev, { text: data.error, sender: 'ai', timestamp: new Date() }]);
+      } else if (data.candidates && data.candidates[0]) {
+        const aiResponse = data.candidates[0].content.parts[0].text;
+        setChatMessages(prev => [...prev, { text: aiResponse, sender: 'ai', timestamp: new Date() }]);
+      }
     }
   }, [data]);
 
@@ -44,20 +53,12 @@ export default function ChatScreen() {
           title="Chat"
           onSearchPress={() => console.log("Search pressed")}
         />
-        <FlatList
-          data={chatMessages}
-          renderItem={({ item }) => (
-            <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessage : styles.aiMessage]}>
-              <Text style={styles.messageText}>{item.text}</Text>
-            </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          style={styles.conversationList}
-        />
+        <ChatList ref={chatListRef} messages={chatMessages} />
         <MessageInput
           value={message}
           onChangeText={setMessage}
           onSendPress={sendMessage}
+          isLoading={isLoading}
         />
       </View>
     </KeyboardAvoidingView>
@@ -67,26 +68,5 @@ export default function ChatScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  conversationList: {
-    flex: 1,
-  },
-  messageContainer: {
-    padding: 10,
-    marginVertical: 5,
-    marginHorizontal: 10,
-    borderRadius: 10,
-    maxWidth: '80%',
-  },
-  userMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#007AFF',
-  },
-  aiMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#E5E5EA',
-  },
-  messageText: {
-    color: '#000',
   },
 });
