@@ -1,8 +1,7 @@
 
-import Config from 'react-native-config';
 import axios from "axios";
 import { GeminiResponse } from '@/types/RequsetType';
-const API_KEY = Config.API_KEY
+const API_KEY = process.env.EXPO_PUBLIC_API_KEY
 const FetchChat = async (chatMessage: string): Promise<GeminiResponse | null> => {
     try {
         const response = await axios.post(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
@@ -23,9 +22,10 @@ const FetchChat = async (chatMessage: string): Promise<GeminiResponse | null> =>
                 ]
             }
         )
+        console.log('Server response:', response.data);
         return response.data
     } catch (error: any) {
-        console.error(error);
+        console.error('Error fetching chat:', error);
         return error;
     }
 }

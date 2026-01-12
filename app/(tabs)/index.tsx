@@ -1,48 +1,37 @@
-import React, { useState } from 'react';
-import { StyleSheet, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
 import { View } from '@/components/Themed';
 import ChatHeader from '@/components/ChatHeader';
-import ConversationItem from '@/components/ConversationItem';
 import MessageInput from '@/components/MessageInput';
+import useFetchChat from '@/hooks/useFetchChat';
 
-// Mock data for conversations
-const conversations = [
-  {
-    id: '1',
-    name: 'John Doe',
-    lastMessage: 'Hey, how are you?',
-    time: '10:30 AM',
-    avatar: 'https://via.placeholder.com/50',
-    unreadCount: 2,
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    lastMessage: 'See you tomorrow!',
-    time: '9:15 AM',
-    avatar: 'https://via.placeholder.com/50',
-    unreadCount: 0,
-  },
-  {
-    id: '3',
-    name: 'AI Assistant',
-    lastMessage: 'Your query has been processed.',
-    time: 'Yesterday',
-    avatar: 'https://via.placeholder.com/50',
-    unreadCount: 1,
-  },
-];
+type Message = {
+  text: string;
+  sender: 'user' | 'ai';
+};
 
 export default function ChatScreen() {
   const [message, setMessage] = useState('');
+  const [messageToSend, setMessageToSend] = useState('');
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+
+  const { data, isLoading, isError } = useFetchChat(messageToSend);
 
   const sendMessage = () => {
     if (message.trim()) {
-      // Handle sending message
-      console.log('Sending message:', message);
+      setChatMessages(prev => [...prev, { text: message, sender: 'user' }]);
+      setMessageToSend(message);
       setMessage('');
     }
   };
+
+  // Handle response when received
+  useEffect(() => {
+    if (data && data.candidates && data.candidates[0]) {
+      const aiResponse = data.candidates[0].content.parts[0].text;
+      setChatMessages(prev => [...prev, { text: aiResponse, sender: 'ai' }]);
+    }
+  }, [data]);
 
   return (
     <KeyboardAvoidingView
@@ -56,9 +45,13 @@ export default function ChatScreen() {
           onSearchPress={() => console.log("Search pressed")}
         />
         <FlatList
-          data={conversations}
-          renderItem={({ item }) => <ConversationItem item={item} />}
-          keyExtractor={(item) => item.id}
+          data={chatMessages}
+          renderItem={({ item }) => (
+            <View style={[styles.messageContainer, item.sender === 'user' ? styles.userMessage : styles.aiMessage]}>
+              <Text style={styles.messageText}>{item.text}</Text>
+            </View>
+          )}
+          keyExtractor={(item, index) => index.toString()}
           style={styles.conversationList}
         />
         <MessageInput
@@ -74,9 +67,26 @@ export default function ChatScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
   },
   conversationList: {
     flex: 1,
+  },
+  messageContainer: {
+    padding: 10,
+    marginVertical: 5,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    maxWidth: '80%',
+  },
+  userMessage: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#007AFF',
+  },
+  aiMessage: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#E5E5EA',
+  },
+  messageText: {
+    color: '#000',
   },
 });
